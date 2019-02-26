@@ -57,7 +57,7 @@ public class GuiFirework extends GuiScreen{
 			}
 		});
 		this.addButton(durslider = new GuiSlider(1, width/2-100, 45, 200, 20, I18n.format("gui.delay")+" ", " "+I18n.format("gui.seconds"), 1, 10, te.getDelay(), false, true));
-		this.addButton(flighslider = new GuiSlider(2, width/2-100, 70, 200, 20, I18n.format("item.fireworks.flight")+" ", "", 1, 3, te.getFlight(), false, true));
+		this.addButton(flighslider = new GuiSlider(2, width/2-100, 70, 200, 20, I18n.format("item.minecraft.firework_rocket.flight")+" ", "", 1, 3, te.getFlight(), false, true));
 		this.addButton(btnEnable = new GuiButtonExt(3, width/2-100, 160, I18n.format("gui.fwdisabled")) {
 
 			public void onClick(double mouseX, double mouseY) {
@@ -116,7 +116,7 @@ public class GuiFirework extends GuiScreen{
 		GlStateManager.disableFog();
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder bufferbuilder = tessellator.getBuffer();
-		this.mc.getTextureManager().bindTexture(new ResourceLocation("textures/block/brick.png"));
+		this.mc.getTextureManager().bindTexture(new ResourceLocation("textures/block/bricks.png"));
 		GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 		float f = 32.0F;
 		bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
