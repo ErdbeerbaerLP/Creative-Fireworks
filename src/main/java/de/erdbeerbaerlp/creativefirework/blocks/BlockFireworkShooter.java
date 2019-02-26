@@ -72,6 +72,22 @@ public class BlockFireworkShooter extends BlockTileEntity<TEFirework> {
 		is.setTag(nbt);
 		return is;
 	}
+	private String getTypeString(int type) {
+		switch(type) {
+		case 1:
+			return ".small_ball";
+		case 2:
+			return ".large_ball";
+		case 3:
+			return ".star";
+		case 4:
+			return ".creeper";
+		case 5:
+			return ".burst";
+		default:
+			return "";
+		}
+	}
 	@Override
 	public void getDrops(IBlockState state, NonNullList<ItemStack> drops, World world, BlockPos pos, int fortune) {
 		List<ItemStack> dropz = new ArrayList<ItemStack>();
@@ -93,7 +109,7 @@ public class BlockFireworkShooter extends BlockTileEntity<TEFirework> {
 				tooltip.add(new TextComponentString("§e"+I18n.format("gui.flight")+" "+c.getInt("flight")));
 				tooltip.add(new TextComponentString("§e"+I18n.format("gui.delay")+" "+c.getInt("delay")+" "+I18n.format("gui.seconds")));
 				tooltip.add(new TextComponentString("§e"+I18n.format("gui.fwmode")+" "+I18n.format(c.getInt("mode") > 5 ?"gui.fwmodes":("gui.fwmodes."+c.getInt("mode")))));
-				tooltip.add(new TextComponentString("§e"+I18n.format("gui.fwtype")+" "+I18n.format(c.getInt("type") == 0?"gui.fwtype0":("item.fireworksCharge.type."+(c.getInt("type")-1)))));
+				tooltip.add(new TextComponentString("§e"+I18n.format("gui.fwtype")+" "+I18n.format(c.getInt("type") == 0?"gui.fwtype0":("item.minecraft.firework_star.shape"+getTypeString(c.getInt("type"))))));
 			}else {
 				tooltip.add(new TextComponentString(getLores()[0]));
 				tooltip.add(new TextComponentString(getLores()[1]));
