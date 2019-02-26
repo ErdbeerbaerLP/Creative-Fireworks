@@ -84,7 +84,7 @@ public class GuiFirework extends GuiScreen{
 			typestring = typestring+I18n.format("gui.fwtype0");
 			break;
 		default:
-			typestring = typestring+I18n.format("item.fireworksCharge.type."+(this.type-1));
+			typestring = typestring+I18n.format("item.minecraft.firework_star.shape."+(this.type-1));
 			break;
 		}
 		btnEnable.displayString = modestring;
