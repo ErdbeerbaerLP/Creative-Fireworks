@@ -53,8 +53,4 @@ public class UpdateCheck {
 			}
 		}
 	}
-	@SubscribeEvent
-	public static void onMenuOpened(GuiOpenEvent event){
-		if(event.getGui() instanceof GuiMainMenu || event.getGui() instanceof GuiMultiplayer) checkedUpdate = false;
-	}
 }
