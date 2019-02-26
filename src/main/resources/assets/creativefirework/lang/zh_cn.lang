@@ -16,8 +16,8 @@
     "gui.fwtype0": "随机",
 
 
-    "itemGroup.fireworks": "烟花",
-    "block.fireworkshooter": "烟花发射器",
+    "itemGroup.fireworks.name": "烟花",
+    "block.fireworkshooter.name": "烟花发射器",
 
 
 

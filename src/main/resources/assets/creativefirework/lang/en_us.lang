@@ -15,8 +15,8 @@
     "gui.fwtype0": "Random",
 
 
-    "itemGroup.fireworks": "Fireworks",
-    "block.fireworkshooter": "Firework Shooter",
+    "itemGroup.fireworks.name": "Fireworks",
+    "block.fireworkshooter.name": "Firework Shooter",
 
 
 

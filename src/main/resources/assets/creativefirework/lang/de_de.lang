@@ -14,8 +14,8 @@
     "gui.fwtype": "Explosionsart:",
     "gui.fwtype0": "Zufällig",
 
-    "itemGroup.fireworks": "Feuerwerke",
-    "block.fireworkshooter": "Feuerwerksbatterie",
+    "itemGroup.fireworks.name": "Feuerwerke",
+    "block.fireworkshooter.name": "Feuerwerksbatterie",
 
 
 
