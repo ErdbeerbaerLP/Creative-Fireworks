@@ -1,0 +1,25 @@
+﻿{
+    "gui.seconds": "Sekunden",
+    "gui.delay": "Verzögerung:",
+    "gui.flight": "Fluglänge:",
+    "gui.fwmodes.3": "§aImmer Aktiv",
+    "gui.fwmodes.2": "§cImmer Inaktiv",
+    "gui.fwmodes.0": "§cNur §emit§c Redstone",
+    "gui.fwmodes.1": "§cNur §aohne§c Redstone",
+    "gui.fwmodes": "§cUnbekannt",
+    "gui.fwmode": "Modus:",
+    "gui.fwmodes.4": "§5Automatisch §5(§cTag§5/§aNacht§5)",
+    "gui.fwmodes.5": "§5Automatisch §5(§aTag§5/§cNacht§5)",
+    "gui.fireworks.title": "Feuerwerkseinstellungen",
+    "gui.fwtype": "Explosionsart:",
+    "gui.fwtype0": "Zufällig",
+
+    "itemGroup.fireworks": "Feuerwerke",
+    "block.fireworkshooter": "Feuerwerksbatterie",
+
+
+
+    "lore.shooter.1": "§5Schießt automatisch zufällige Feuerwerksraketen",
+    "lore.shooter.2": "§6Rechtsklicken um Einstellungen zu öffnen",
+    "lore.storedData": "Gespeicherte Daten:"
+}

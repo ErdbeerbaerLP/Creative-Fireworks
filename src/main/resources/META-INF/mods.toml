@@ -1,0 +1,52 @@
+# This is an example mods.toml file. It contains the data relating to the loading mods.
+# There are several mandatory fields (#mandatory), and many more that are optional (#optional).
+# The overall format is standard TOML format, v0.5.0.
+# Note that there are a couple of TOML lists in this file.
+# Find more information on toml format here:  https://github.com/toml-lang/toml
+# The name of the mod loader type to load - for regular FML @Mod mods it should be javafml
+modLoader="javafml" #mandatory
+# A version range to match for said mod loader - for regular FML @Mod it will be the forge version
+loaderVersion="[25,)" #mandatory (24 is current forge version)
+# A URL to refer people to when problems occur with this mod
+issueTrackerURL="http://my.issue.tracker/" #optional
+# A list of mods - how many allowed here is determined by the individual mod loader
+
+
+
+[[mods]] #mandatory
+
+modId="creativefirework" #mandatory
+
+version="2.0.0" #mandatory
+
+displayName="Creative Fireworks" #mandatory
+
+displayURL="https://minecraft.curseforge.com/projects/creative-fireworks" #optional
+
+updateJSONURL="http://erdbeerbaerapi.tk/creativefireworks.json/"
+
+authors="ErdbeerbaerLP" #optional
+
+description='''
+Adds an creative tab for fireworks
+'''
+
+
+[[dependencies.creativefirework]] #optional
+    # the modid of the dependency
+    modId="forge" #mandatory
+    # Does this dependency have to exist - if not, ordering below must be specified
+    mandatory=true #mandatory
+    # The version range of the dependency
+    versionRange="[25,)" #mandatory
+    # An ordering relationship for the dependency - BEFORE or AFTER required if the relationship is not mandatory
+    ordering="NONE"
+    # Side this dependency is applied on - BOTH, CLIENT or SERVER
+    side="BOTH"
+# Here's another dependency
+[[dependencies.creativefirework]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.13.2]"
+    ordering="NONE"
+    side="BOTH"
