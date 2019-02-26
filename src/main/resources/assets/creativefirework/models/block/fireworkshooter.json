@@ -1,12 +1,12 @@
 {
     "parent": "block/cube",
     "textures": {
-        "particle": "minecraft:blocks/furnace_side",
-        "east": "minecraft:blocks/furnace_side",
-        "west": "minecraft:blocks/furnace_side",
-        "south": "minecraft:blocks/furnace_side",
-        "up": "minecraft:blocks/daylight_detector_top",
-        "down": "minecraft:blocks/furnace_top",
-        "north": "minecraft:blocks/furnace_side"
+        "particle": "minecraft:block/furnace_side",
+        "east": "minecraft:block/furnace_side",
+        "west": "minecraft:block/furnace_side",
+        "south": "minecraft:block/furnace_side",
+        "up": "minecraft:block/daylight_detector_top",
+        "down": "minecraft:block/furnace_top",
+        "north": "minecraft:block/furnace_side"
     }
 }

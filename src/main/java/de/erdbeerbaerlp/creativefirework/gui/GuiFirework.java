@@ -20,6 +20,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.dimension.Dimension;
 import net.minecraftforge.fml.client.config.GuiButtonExt;
 import net.minecraftforge.fml.client.config.GuiSlider;
 
@@ -101,10 +102,10 @@ public class GuiFirework extends GuiScreen{
 		// TODO Auto-generated method stub
 		int delay = (int) Math.round(durslider.getValue());
 		int flight = (int) Math.round(flighslider.getValue());
-		MainClass.TESHOOTERUPDATECHANNEL.sendToServer(new UpdateTE(te.getPos().getX()+";"+te.getPos().getY()+";"+te.getPos().getZ()+";"+te.getWorld().dimension+";delay;"+delay));
-		MainClass.TESHOOTERUPDATECHANNEL.sendToServer(new UpdateTE(te.getPos().getX()+";"+te.getPos().getY()+";"+te.getPos().getZ()+";"+te.getWorld().dimension+";flight;"+flight));
-		MainClass.TESHOOTERUPDATECHANNEL.sendToServer(new UpdateTE(te.getPos().getX()+";"+te.getPos().getY()+";"+te.getPos().getZ()+";"+te.getWorld().dimension+";mode;"+mode));
-		MainClass.TESHOOTERUPDATECHANNEL.sendToServer(new UpdateTE(te.getPos().getX()+";"+te.getPos().getY()+";"+te.getPos().getZ()+";"+te.getWorld().dimension+";type;"+type));
+		MainClass.TESHOOTERUPDATECHANNEL.sendToServer(new UpdateTE(te.getPos().getX()+";"+te.getPos().getY()+";"+te.getPos().getZ()+";"+te.getWorld().getDimension().getType().getId()+";delay;"+delay));
+		MainClass.TESHOOTERUPDATECHANNEL.sendToServer(new UpdateTE(te.getPos().getX()+";"+te.getPos().getY()+";"+te.getPos().getZ()+";"+te.getWorld().getDimension().getType().getId()+";flight;"+flight));
+		MainClass.TESHOOTERUPDATECHANNEL.sendToServer(new UpdateTE(te.getPos().getX()+";"+te.getPos().getY()+";"+te.getPos().getZ()+";"+te.getWorld().getDimension().getType().getId()+";mode;"+mode));
+		MainClass.TESHOOTERUPDATECHANNEL.sendToServer(new UpdateTE(te.getPos().getX()+";"+te.getPos().getY()+";"+te.getPos().getZ()+";"+te.getWorld().getDimension().getType().getId()+";type;"+type));
 		super.onGuiClosed();
 	}
 

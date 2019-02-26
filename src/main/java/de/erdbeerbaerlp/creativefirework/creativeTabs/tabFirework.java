@@ -39,7 +39,7 @@ public class tabFirework extends ItemGroup {
 		super.fill(l);
 
 		
-		l.add(new ItemStack(MainClass.ModBlocks.FireworkShooter));
+		l.add(new ItemStack(MainClass.FireworkShooter));
 		l.add(getFirework(-99, Shapes.STAR, false, true, new int[] {3887386,5320730,2437522,4312372}, new int[] {11743532,14188952,12801229,15435844}, "§eGround-Star", new String[] {"§eStar-Shaped Explosion","","§cWARNING: Explodes on ground"}));
 		l.add(getFirework(-99, Shapes.LARGEBALL, false, true, new int[] {3887386}, new int[] {11743532,15435844,34345665}, "§eGround-Explosion", new String[] {"§aBig Explosion","","§cWARNING: Explodes on ground"}));
 		l.add(getFirework(-99, Shapes.SPARKLE, false, true, new int[] {3887386}, new int[] {11743532,15435844,343456654}, "§eSmall Ground-Explosion", new String[] {"§eSmall Explosion","","§cWARNING: Explodes on ground"}));

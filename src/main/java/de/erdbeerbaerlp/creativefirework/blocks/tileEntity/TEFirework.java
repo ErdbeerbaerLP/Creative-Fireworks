@@ -5,7 +5,6 @@ import java.util.Random;
 import javax.annotation.Nullable;
 
 import de.erdbeerbaerlp.creativefirework.MainClass;
-import de.erdbeerbaerlp.creativefirework.MainClass.ModBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCommandBlock;
 import net.minecraft.block.BlockFurnace;

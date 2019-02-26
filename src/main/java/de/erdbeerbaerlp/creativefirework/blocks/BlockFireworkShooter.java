@@ -6,7 +6,6 @@ import java.util.List;
 import de.erdbeerbaerlp.creativefirework.blocks.tileEntity.BlockTileEntity;
 import de.erdbeerbaerlp.creativefirework.blocks.tileEntity.TEFirework;
 import de.erdbeerbaerlp.creativefirework.gui.GuiFirework;
-import de.erdbeerbaerlp.creativefirework.util.Lists;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
@@ -39,9 +38,6 @@ public class BlockFireworkShooter extends BlockTileEntity<TEFirework> {
 	public BlockFireworkShooter(Properties properties) {
 		super(properties);
 		setRegistryName("fireworkshooter");
-		Lists.BLOCKS.add(this);
-		Lists.ITEMS.add(new ItemBlock(this, new Item.Properties().addToolType(ToolType.PICKAXE, 1)).setRegistryName(this.getRegistryName()));
-
 	}
 	@Override
 	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer,
