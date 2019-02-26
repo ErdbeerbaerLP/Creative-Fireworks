@@ -116,7 +116,7 @@ public class GuiFirework extends GuiScreen{
 		GlStateManager.disableFog();
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder bufferbuilder = tessellator.getBuffer();
-		this.mc.getTextureManager().bindTexture(new ResourceLocation("textures/blocks/brick.png"));
+		this.mc.getTextureManager().bindTexture(new ResourceLocation("textures/block/brick.png"));
 		GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 		float f = 32.0F;
 		bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
