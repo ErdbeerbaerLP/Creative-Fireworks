@@ -1,7 +1,6 @@
 package de.erdbeerbaerlp.creativefirework;
 
 import de.erdbeerbaerlp.creativefirework.blocks.tileEntity.TEFirework;
-import de.erdbeerbaerlp.creativefirework.util.IHasModel;
 import de.erdbeerbaerlp.creativefirework.util.Lists;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -25,19 +24,19 @@ public class Events {
 		System.out.println("Registering items");
 		event.getRegistry().registerAll(Lists.ITEMS.toArray(new Item[0]));
 	}
-	@SubscribeEvent
-	public void registerModels(ModelRegistryEvent event) {
-		for(Item item : Lists.ITEMS) {
-			if(item instanceof IHasModel) {
-				((IHasModel)item).registerModels();
-			}
-		}
-		
-		for(Block block : Lists.BLOCKS) {
-			if(block instanceof IHasModel) {
-				((IHasModel)block).registerModels();
-			}
-		}
-	}
+//	@SubscribeEvent
+//	public void registerModels(ModelRegistryEvent event) {
+//		for(Item item : Lists.ITEMS) {
+//			if(item instanceof IHasModel) {
+//				((IHasModel)item).registerModels();
+//			}
+//		}
+//		
+//		for(Block block : Lists.BLOCKS) {
+//			if(block instanceof IHasModel) {
+//				((IHasModel)block).registerModels();
+//			}
+//		}
+//	}
 	
 }

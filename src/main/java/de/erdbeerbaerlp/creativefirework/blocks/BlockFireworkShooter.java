@@ -6,7 +6,6 @@ import java.util.List;
 import de.erdbeerbaerlp.creativefirework.blocks.tileEntity.BlockTileEntity;
 import de.erdbeerbaerlp.creativefirework.blocks.tileEntity.TEFirework;
 import de.erdbeerbaerlp.creativefirework.gui.GuiFirework;
-import de.erdbeerbaerlp.creativefirework.util.IHasModel;
 import de.erdbeerbaerlp.creativefirework.util.Lists;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -35,7 +34,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.fml.DistExecutor;
 
-public class BlockFireworkShooter extends BlockTileEntity<TEFirework> implements IHasModel {
+public class BlockFireworkShooter extends BlockTileEntity<TEFirework> {
 
 	public BlockFireworkShooter(Properties properties) {
 		super(properties);
@@ -179,11 +178,6 @@ public class BlockFireworkShooter extends BlockTileEntity<TEFirework> implements
 	public Class<TEFirework> getTileEntityClass() {
 		// TODO Auto-generated method stub
 		return TEFirework.class;
-	}
-	@Override
-	public void registerModels() {
-		// TODO Auto-generated method stub
-		System.out.println("Test");
 	}
 
 }
