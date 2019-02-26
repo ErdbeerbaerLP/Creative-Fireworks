@@ -84,7 +84,7 @@ public class GuiFirework extends GuiScreen{
 			typestring = typestring+I18n.format("gui.fwtype0");
 			break;
 		default:
-			typestring = typestring+I18n.format("item.minecraft.firework_star.shape."+(this.type-1));
+			typestring = typestring+I18n.format("item.minecraft.firework_star.shape"+getTypeString(this.type));
 			break;
 		}
 		btnEnable.displayString = modestring;
@@ -96,6 +96,23 @@ public class GuiFirework extends GuiScreen{
 
 	}
 
+
+	private String getTypeString(int type) {
+		switch(type) {
+		case 1:
+			return ".small_ball";
+		case 2:
+			return ".large_ball";
+		case 3:
+			return ".star";
+		case 4:
+			return ".creeper";
+		case 5:
+			return ".burst";
+		default:
+			return "";
+		}
+	}
 
 	@Override
 	public void onGuiClosed() {

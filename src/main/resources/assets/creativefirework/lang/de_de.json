@@ -15,7 +15,7 @@
     "gui.fwtype0": "Zufällig",
 
     "itemGroup.fireworks.name": "Feuerwerke",
-    "block.fireworkshooter.name": "Feuerwerksbatterie",
+    "block.creativefireworks.fireworkshooter": "Feuerwerksbatterie",
 
 
 
