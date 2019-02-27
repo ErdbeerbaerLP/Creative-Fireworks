@@ -1,4 +1,4 @@
-﻿{
+{
     "_comment": "汉化By: 酷车手BB弹",
     "gui.seconds": "秒",
     "gui.delay": "延时:",
@@ -17,7 +17,7 @@
 
 
     "itemGroup.fireworks.name": "烟花",
-    "block.creativefireworks.fireworkshooter": "烟花发射器",
+    "block.creativefirework.fireworkshooter": "烟花发射器",
 
 
 
