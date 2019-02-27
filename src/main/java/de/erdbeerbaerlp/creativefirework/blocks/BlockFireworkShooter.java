@@ -11,6 +11,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.fluid.IFluidState;
 import net.minecraft.item.Item;
@@ -63,7 +64,9 @@ public class BlockFireworkShooter extends BlockTileEntity<TEFirework> {
 	public static ItemStack addNBT(ItemStack is, TEFirework te) {
 		NBTTagCompound nbt = new NBTTagCompound();
 		NBTTagCompound blockdata = new NBTTagCompound();
-
+		System.out.println(blockdata);
+		System.out.println(te);
+		System.out.println(te.getFlight());
 		blockdata.setInt("flight", te.getFlight());
 		blockdata.setInt("delay", te.getDelay());
 		blockdata.setInt("mode", te.getMode());
@@ -90,8 +93,7 @@ public class BlockFireworkShooter extends BlockTileEntity<TEFirework> {
 	}
 	@Override
 	public void getDrops(IBlockState state, NonNullList<ItemStack> drops, World world, BlockPos pos, int fortune) {
-		List<ItemStack> dropz = new ArrayList<ItemStack>();
-		dropz.add(addNBT(new ItemStack(this), (TEFirework) world.getTileEntity(pos)));
+		drops.clear();
 	}
 	@Override
 	public void addInformation(ItemStack stack, IBlockReader worldIn, List<ITextComponent> tooltip,
@@ -128,13 +130,16 @@ public class BlockFireworkShooter extends BlockTileEntity<TEFirework> {
 		if (willHarvest) return true; //If it will harvest, delay deletion of the block until after getDrops
 		return super.removedByPlayer(state, world, pos, player, willHarvest, fluid);
 	}
-
 	@Override
-	public void harvestBlock(World world, EntityPlayer player, BlockPos pos, IBlockState state, TileEntity te, ItemStack tool)
-	{
-		super.harvestBlock(world, player, pos, state, te, tool);
-//		world.set(pos);
+	public void harvestBlock(World world, net.minecraft.entity.player.EntityPlayer player,
+			net.minecraft.util.math.BlockPos pos, IBlockState state, TileEntity te, ItemStack stack) {
+		// TODO Auto-generated method stub
+		if (te instanceof TEFirework && !world.isRemote) {
+				world.spawnEntity(new EntityItem(world, pos.getX(),pos.getY(),pos.getZ(), addNBT(new ItemStack(this), (TEFirework) te)));
+        	 }
+		super.harvestBlock(world, player, pos, state, te, stack);
 	}
+
 	@Override
 	public boolean onBlockActivated(IBlockState state, World worldIn, BlockPos pos, EntityPlayer player, EnumHand hand,
 			EnumFacing side, float hitX, float hitY, float hitZ) {
