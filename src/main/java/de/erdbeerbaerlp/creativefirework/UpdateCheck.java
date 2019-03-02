@@ -25,11 +25,11 @@ public class UpdateCheck {
 			LOGGER.info(result.toString());
 			if (result.status == Status.OUTDATED)
 			{
-				event.player.sendMessage(new TextComponentString("\u00A76[\u00A7cCreative Firework\u00A76]\u00A7c Update available!\n\u00A7cCurrent version: \u00A74"+MainClass.VERSION+"\u00A7c, Newest: \u00A7a"+result.target+"\n\u00A7cChangelog:\n\u00A76"+result.changes.get(result.target)).setStyle(new Style().setClickEvent(new ClickEvent(Action.OPEN_URL, "https://minecraft.curseforge.com/projects/discordrpc")).setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponentString("Click to get newer Version")))));
+				event.player.sendMessage(new TextComponentString("\u00A76[\u00A7cCreative Firework\u00A76]\u00A7c Update available!\n\u00A7cCurrent version: \u00A74"+MainClass.VERSION+"\u00A7c, Newest: \u00A7a"+result.target+"\n\u00A7cChangelog:\n\u00A76"+result.changes.get(result.target)).setStyle(new Style().setClickEvent(new ClickEvent(Action.OPEN_URL, result.url)).setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponentString("Click to get newer Version")))));
 				LOGGER.log(Level.WARNING,"UpdateCheck: Update Available. Download it here: https://minecraft.curseforge.com/projects/discordrichpresence/files");
 				checkedUpdate = true;
 			}else if(result.status == Status.AHEAD){
-				event.player.sendMessage(new TextComponentString("\u00A76[\u00A7cCreative Firework\u00A76]\u00A77 It looks like you are using an Development version... \n\u00A77Your version: \u00A76"+MainClass.VERSION).setStyle(new Style().setClickEvent(new ClickEvent(Action.OPEN_URL, "https://minecraft.curseforge.com/projects/discordrpc")).setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponentString("Click to get current stable Version")))));
+				event.player.sendMessage(new TextComponentString("\u00A76[\u00A7cCreative Firework\u00A76]\u00A77 It looks like you are using an Development version... \n\u00A77Your version: \u00A76"+MainClass.VERSION).setStyle(new Style().setClickEvent(new ClickEvent(Action.OPEN_URL, result.url)).setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponentString("Click to get current stable Version")))));
 				LOGGER.log(Level.WARNING,"UpdateCheck: Unreleased version... Assuming Development Version");
 				checkedUpdate = true;
 			}else if(result.status == Status.FAILED){
@@ -41,7 +41,7 @@ public class UpdateCheck {
 				LOGGER.log(Level.WARNING,"UpdateCheck: Beta");
 				checkedUpdate = true;
 			}else if(result.status == Status.BETA_OUTDATED){
-				event.player.sendMessage(new TextComponentString("\u00A76[\u00A7cCreative Firework\u00A76]\u00A7c You are using an Outdated Beta Version. This may contain bugs which are being fixed or are already fixed\n\u00A76Changelog of newer Beta:"+result.changes.get(result.target)));
+				event.player.sendMessage(new TextComponentString("\u00A76[\u00A7cCreative Firework\u00A76]\u00A7c You are using an Outdated Beta Version. This may contain bugs which are being fixed or are already fixed\n\u00A76Changelog of newer Beta:"+result.changes.get(result.target)).setStyle(new Style().setClickEvent(new ClickEvent(Action.OPEN_URL, result.url)).setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponentString("Click to get newer Version")))));
 				LOGGER.log(Level.WARNING,"UpdateCheck: Bata_outdated");
 				checkedUpdate = true;
 			} else {
