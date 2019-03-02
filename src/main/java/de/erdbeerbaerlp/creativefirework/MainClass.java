@@ -22,7 +22,7 @@ public class MainClass {
 
 
 	public static final String MOD_ID = "creativefirework";
-	public static final String VERSION = "2.0.0";
+	public static final String VERSION = "2.0.1";
 	public static final ItemGroup tabFirework = new tabFirework("firework");
 	private static final String protVersion = "1.0.0";
 	private static final Predicate<String> pred = (ver) -> {return ver.equals(protVersion);};

@@ -17,7 +17,7 @@ issueTrackerURL="http://my.issue.tracker/" #optional
 
 modId="creativefirework" #mandatory
 
-version="2.0.0" #mandatory
+version="2.0.1" #mandatory
 
 displayName="Creative Fireworks" #mandatory
 
