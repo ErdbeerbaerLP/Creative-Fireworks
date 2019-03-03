@@ -16,6 +16,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.state.IProperty;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.client.config.GuiButtonExt;
 import net.minecraftforge.fml.client.config.GuiSlider;
 
@@ -23,7 +24,6 @@ import net.minecraftforge.fml.client.config.GuiSlider;
 public class GuiFirework extends GuiScreen{
 	private BlockPos pos;
 	private IBlockState blockState;
-	private BlockFireworkShooter block;
 	private GuiSlider durslider;
 	private GuiSlider flighslider;
 	private GuiSlider typeslider;
@@ -31,11 +31,11 @@ public class GuiFirework extends GuiScreen{
 	boolean enabled = false;
 	private int mode = 0;
 	private Shape type;
-	public GuiFirework(BlockPos pos) {
-		// TODO Auto-generated constructor stub
+	private World world;
+	public GuiFirework(BlockPos pos, World world) {
 		this.pos = pos;
-		this.blockState = mc.world.getBlockState(pos);
-		this.block = (BlockFireworkShooter) mc.world.getBlockState(pos).getBlock();
+		this.world = world;
+		this.blockState = world.getBlockState(pos);
 	}
 
 	@Override
@@ -110,7 +110,7 @@ public class GuiFirework extends GuiScreen{
 		// TODO Auto-generated method stub
 		int delay = (int) Math.round(durslider.getValue());
 		int flight = (int) Math.round(flighslider.getValue()); //WorldClient
-		mc.world.setBlockState(pos, mc.world.getBlockState(pos).with(BlockFireworkShooter.DELAY, delay).with(BlockFireworkShooter.FLIGHT, flight).with(BlockFireworkShooter.MODE, BlockFireworkShooter.Mode.getMode(this.mode)).with(BlockFireworkShooter.SHAPE, this.type));
+		world.setBlockState(pos, world.getBlockState(pos).with(BlockFireworkShooter.DELAY, delay).with(BlockFireworkShooter.FLIGHT, flight).with(BlockFireworkShooter.MODE, BlockFireworkShooter.Mode.getMode(this.mode)).with(BlockFireworkShooter.SHAPE, this.type));
 //		MainClass.TESHOOTERUPDATECHANNEL.sendToServer(new UpdateTE(pos.getPos().getX()+";"+pos.getPos().getY()+";"+pos.getPos().getZ()+";"+pos.getWorld().getDimension().getType().getId()+";delay;"+delay));
 //		MainClass.TESHOOTERUPDATECHANNEL.sendToServer(new UpdateTE(pos.getPos().getX()+";"+pos.getPos().getY()+";"+pos.getPos().getZ()+";"+pos.getWorld().getDimension().getType().getId()+";flight;"+flight));
 //		MainClass.TESHOOTERUPDATECHANNEL.sendToServer(new UpdateTE(pos.getPos().getX()+";"+pos.getPos().getY()+";"+pos.getPos().getZ()+";"+pos.getWorld().getDimension().getType().getId()+";mode;"+mode));

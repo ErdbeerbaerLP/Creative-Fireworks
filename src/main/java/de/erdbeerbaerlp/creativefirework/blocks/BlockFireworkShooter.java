@@ -24,6 +24,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.IProperty;
 import net.minecraft.state.IntegerProperty;
+import net.minecraft.state.StateContainer.Builder;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -42,7 +43,7 @@ import net.minecraftforge.fml.DistExecutor;
 
 public class BlockFireworkShooter extends Block {
 	public static final EnumProperty<ItemCustomRocket.Shape> SHAPE = EnumProperty.create("shape", ItemCustomRocket.Shape.class);
-	public static final IntegerProperty FLIGHT = IntegerProperty.create("flight-duration", 0, 3);
+	public static final IntegerProperty FLIGHT = IntegerProperty.create("flight_duration", 0, 3);
 	public static final IntegerProperty DELAY = IntegerProperty.create("delay", 1, 10);
 	public static final EnumProperty<Mode> MODE = EnumProperty.create("mode", BlockFireworkShooter.Mode.class);
 
@@ -50,6 +51,11 @@ public class BlockFireworkShooter extends Block {
 		super(properties);
 		setRegistryName("fireworkshooter");
 		setDefaultState(this.stateContainer.getBaseState().with(SHAPE, ItemCustomRocket.Shape.RANDOM).with(FLIGHT, 3).with(DELAY, 3).with(MODE, Mode.ALWAYS_OFF));
+	}
+	@Override
+	protected void fillStateContainer(Builder<Block, IBlockState> builder) {
+		// TODO Auto-generated method stub
+		builder.add(SHAPE,FLIGHT,DELAY,MODE);
 	}
 	@Override
 	public IBlockState getStateForPlacement(BlockItemUseContext context) {
@@ -141,14 +147,10 @@ public class BlockFireworkShooter extends Block {
 	public boolean onBlockActivated(IBlockState state, World worldIn, BlockPos pos, EntityPlayer player, EnumHand hand,
 			EnumFacing side, float hitX, float hitY, float hitZ) {
 		if(hand == EnumHand.MAIN_HAND) DistExecutor.runWhenOn(Dist.CLIENT, ()->()->{
-			openGui(pos);
+			Minecraft.getInstance().displayGuiScreen(new GuiFirework(pos, worldIn));
 		});
 
 		return true;
-	}
-	@OnlyIn(Dist.CLIENT)
-	private void openGui(BlockPos pos) {
-		Minecraft.getInstance().displayGuiScreen(new GuiFirework(pos));
 	}
 
 	@Override
@@ -175,11 +177,11 @@ public class BlockFireworkShooter extends Block {
 	}
 	public static enum Mode implements IStringSerializable{
 		REDSTONE(0, "redstone"),
-		REDSTONE_INVERTED(1, "redstone-inverted"),
-		ALWAYS_OFF(2, "always-off"),
-		ALWAYS_ON(3, "always-on"),
-		AUTOMATIC_NIGHT(4, "auto-night"),
-		AUTOMATIC_DAY(5, "auto-day");
+		REDSTONE_INVERTED(1, "redstone_inverted"),
+		ALWAYS_OFF(2, "always_off"),
+		ALWAYS_ON(3, "always_on"),
+		AUTOMATIC_NIGHT(4, "auto_night"),
+		AUTOMATIC_DAY(5, "auto_day");
 
 		private static final Mode[] modes = Arrays.stream(values()).sorted(Comparator.comparingInt((mode) -> {
 			return mode.ID;
