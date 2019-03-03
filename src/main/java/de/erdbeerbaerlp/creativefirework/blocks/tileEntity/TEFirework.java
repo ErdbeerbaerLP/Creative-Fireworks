@@ -5,6 +5,7 @@ import java.util.Random;
 import javax.annotation.Nullable;
 
 import de.erdbeerbaerlp.creativefirework.MainClass;
+import de.erdbeerbaerlp.creativefirework.entity.EntityCustomRocket;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCommandBlock;
 import net.minecraft.block.BlockFurnace;
@@ -189,10 +190,10 @@ public class TEFirework extends TileEntity implements ITickable{
 			if(hole2 == 1) addz = 0.5;
 			if(hole2 == 2) addz = 0.75;
 			if(canFire) { //WorldClient
-				Entity e = new EntityFireworkRocket(worldIn, pos.getX()+addx, pos.getY(), pos.getZ()+addz, getFirework(getFlight(), (getFWType()==0) ? r.nextInt(5):(getFWType()-1), r.nextBoolean(), r.nextBoolean(), colors, fade));
+				Entity e = new EntityCustomRocket(worldIn, pos.getX()+addx, pos.getY(), pos.getZ()+addz, getFirework(getFlight(), (getFWType()==0) ? r.nextInt(5):(getFWType()), r.nextBoolean(), r.nextBoolean(), colors, fade));
 				worldIn.spawnEntity(e);
 			}else {
-				Entity e = new EntityFireworkRocket(worldIn, pos.getX()+addx, pos.getY(), pos.getZ()+addz, getFirework(-99, (getFWType()==0) ? r.nextInt(5):(getFWType()-1), r.nextBoolean(), r.nextBoolean(), colors, fade));
+				Entity e = new EntityCustomRocket(worldIn, pos.getX()+addx, pos.getY(), pos.getZ()+addz, getFirework(-99, (getFWType()==0) ? r.nextInt(5):(getFWType()), r.nextBoolean(), r.nextBoolean(), colors, fade));
 				worldIn.spawnEntity(e);
 //				world.destroyBlock(getPos(), false);
 				world.createExplosion(e, pos.getX(), pos.getY(), pos.getZ(), 2f, true);
@@ -224,7 +225,7 @@ public class TEFirework extends TileEntity implements ITickable{
 		fw.setTag("Explosions", explosion);
 		fw.setInt("Flight", flight);
 		nbt.setTag("Fireworks", fw);
-		ItemStack i = new ItemStack(Items.FIREWORK_ROCKET);
+		ItemStack i = new ItemStack(MainClass.CustomRocket);
 		i.setTag(nbt);
 		return i;
 	}

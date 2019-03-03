@@ -12,7 +12,7 @@
     "gui.fwmodes.5": "§5Automatisch §5(§aTag§5/§cNacht§5)",
     "gui.fireworks.title": "Feuerwerkseinstellungen",
     "gui.fwtype": "Explosionsart:",
-    "gui.fwtype0": "Zufällig",
+    "item.minecraft.firework_star.shape.random": "Zufällig",
 
     "itemGroup.fireworks.name": "Feuerwerke",
     "block.creativefirework.fireworkshooter": "Feuerwerksbatterie",

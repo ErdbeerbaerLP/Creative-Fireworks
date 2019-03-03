@@ -13,7 +13,7 @@
     "gui.fireworks.title": "烟花设置",
     "gui.fwmodes": "§c未知！",
     "gui.fwtype": "形状:",
-    "gui.fwtype0": "随机",
+    "item.minecraft.firework_star.shape.random": "随机",
 
 
     "itemGroup.fireworks.name": "烟花",

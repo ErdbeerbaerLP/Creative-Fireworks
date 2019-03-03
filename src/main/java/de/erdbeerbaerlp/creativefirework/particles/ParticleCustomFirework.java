@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import javax.annotation.Nullable;
 
+import de.erdbeerbaerlp.creativefirework.items.ItemCustomRocket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.ParticleFirework;
 import net.minecraft.client.particle.ParticleManager;
@@ -59,7 +60,7 @@ public class ParticleCustomFirework extends ParticleFirework.Starter{
 			} else {
 				for(int i = 0; i < this.fireworkExplosions.size(); ++i) {
 					NBTTagCompound nbttagcompound = this.fireworkExplosions.getCompound(i);
-					if (ItemFireworkRocket.Shape.func_196070_a(nbttagcompound.getByte("Type")) == ItemFireworkRocket.Shape.LARGE_BALL) {
+					if (ItemCustomRocket.Shape.getShape(nbttagcompound.getByte("Type")) == ItemCustomRocket.Shape.LARGE_BALL) {
 						flag1 = true;
 						break;
 					}
@@ -79,7 +80,7 @@ public class ParticleCustomFirework extends ParticleFirework.Starter{
 		if (this.fireworkAge % 2 == 0 && this.fireworkExplosions != null && this.fireworkAge / 2 < this.fireworkExplosions.size()) {
 			int k = this.fireworkAge / 2;
 			NBTTagCompound nbttagcompound1 = this.fireworkExplosions.getCompound(k);
-			ItemFireworkRocket.Shape itemfireworkrocket$shape = ItemFireworkRocket.Shape.func_196070_a(nbttagcompound1.getByte("Type"));
+			ItemCustomRocket.Shape itemfireworkrocket$shape = ItemCustomRocket.Shape.getShape(nbttagcompound1.getByte("Type"));
 			boolean flag4 = nbttagcompound1.getBoolean("Trail");
 			boolean flag2 = nbttagcompound1.getBoolean("Flicker");
 			int[] aint = nbttagcompound1.getIntArray("Colors");
@@ -104,6 +105,9 @@ public class ParticleCustomFirework extends ParticleFirework.Starter{
 				break;
 			case BURST:
 				this.createBurst(aint, aint1, flag4, flag2);
+				break;
+			case TEXT:
+				this.createText(0.5D, aint, aint1, flag4, flag2, true, "TEST");
 			}
 
 			int j = aint[0];
@@ -132,35 +136,17 @@ public class ParticleCustomFirework extends ParticleFirework.Starter{
 			this.setExpired();
 		}
 	}
-	private void createText(double speed, int size, int[] colours, int[] fadeColours, boolean trail, boolean twinkleIn, String text) {
-
-	}
-
-
-
-
-	private boolean isFarFromCamera() {
-		Minecraft minecraft = Minecraft.getInstance();
-		return minecraft.getRenderViewEntity() == null || !(minecraft.getRenderViewEntity().getDistanceSq(this.posX, this.posY, this.posZ) < 256.0D);
-	}
-
 	/**
-	 * Creates a single particle.
+	 * Creates a firework with text as explosion effect.
 	 */
-	private void createParticle(double p_92034_1_, double p_92034_3_, double p_92034_5_, double p_92034_7_, double p_92034_9_, double p_92034_11_, int[] p_92034_13_, int[] p_92034_14_, boolean p_92034_15_, boolean p_92034_16_) {
-		ParticleFirework.Spark particlefirework$spark = new ParticleFirework.Spark(this.world, p_92034_1_, p_92034_3_, p_92034_5_, p_92034_7_, p_92034_9_, p_92034_11_, this.manager);
-		particlefirework$spark.setAlphaF(0.99F);
-		particlefirework$spark.setTrail(p_92034_15_);
-		particlefirework$spark.setTwinkle(p_92034_16_);
-		int i = this.rand.nextInt(p_92034_13_.length);
-		particlefirework$spark.setColor(p_92034_13_[i]);
-		if (p_92034_14_.length > 0) {
-			particlefirework$spark.setColorFade(p_92034_14_[this.rand.nextInt(p_92034_14_.length)]);
-		}
+	private void createText(double speed, int[] colours, int[] fadeColours, boolean trail, boolean twinkleIn, boolean p_92038_8_, String text) {
+		double d0 = this.posX;
+		double d1 = this.posY;
+		double d2 = this.posZ;
 
-		this.manager.addEffect(particlefirework$spark);
+		this.createParticle(d0, d1, d2, 0, 0, 1, colours, fadeColours, trail, twinkleIn);
 	}
-
+	
 	/**
 	 * Creates a small ball or large ball type explosion effect.
 	 */
@@ -245,6 +231,30 @@ public class ParticleCustomFirework extends ParticleFirework.Starter{
 	 */
 	public int getFXLayer() {
 		return 0;
+	}
+
+
+
+	private boolean isFarFromCamera() {
+		Minecraft minecraft = Minecraft.getInstance();
+		return minecraft.getRenderViewEntity() == null || !(minecraft.getRenderViewEntity().getDistanceSq(this.posX, this.posY, this.posZ) < 256.0D);
+	}
+
+	/**
+	 * Creates a single particle.
+	 */
+	private void createParticle(double p_92034_1_, double p_92034_3_, double p_92034_5_, double p_92034_7_, double p_92034_9_, double p_92034_11_, int[] p_92034_13_, int[] p_92034_14_, boolean p_92034_15_, boolean p_92034_16_) {
+		ParticleFirework.Spark particlefirework$spark = new ParticleFirework.Spark(this.world, p_92034_1_, p_92034_3_, p_92034_5_, p_92034_7_, p_92034_9_, p_92034_11_, this.manager);
+		particlefirework$spark.setAlphaF(0.99F);
+		particlefirework$spark.setTrail(p_92034_15_);
+		particlefirework$spark.setTwinkle(p_92034_16_);
+		int i = this.rand.nextInt(p_92034_13_.length);
+		particlefirework$spark.setColor(p_92034_13_[i]);
+		if (p_92034_14_.length > 0) {
+			particlefirework$spark.setColorFade(p_92034_14_[this.rand.nextInt(p_92034_14_.length)]);
+		}
+
+		this.manager.addEffect(particlefirework$spark);
 	}
 
 }

@@ -1,42 +1,41 @@
 package de.erdbeerbaerlp.creativefirework.gui;
 
-import java.io.IOException;
+import com.google.common.collect.ImmutableMap;
 
-import de.erdbeerbaerlp.creativefirework.MainClass;
-import de.erdbeerbaerlp.creativefirework.blocks.tileEntity.TEFirework;
-import de.erdbeerbaerlp.creativefirework.networking.UpdateTE;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockDaylightDetector;
+import de.erdbeerbaerlp.creativefirework.blocks.BlockFireworkShooter;
+import de.erdbeerbaerlp.creativefirework.items.ItemCustomRocket;
+import de.erdbeerbaerlp.creativefirework.items.ItemCustomRocket.Shape;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiMainMenu;
-import net.minecraft.client.gui.GuiOptions;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.init.Blocks;
+import net.minecraft.state.IProperty;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.dimension.Dimension;
 import net.minecraftforge.fml.client.config.GuiButtonExt;
 import net.minecraftforge.fml.client.config.GuiSlider;
 
 
 public class GuiFirework extends GuiScreen{
-	private TEFirework te;
+	private BlockPos pos;
+	private IBlockState blockState;
+	private BlockFireworkShooter block;
 	private GuiSlider durslider;
 	private GuiSlider flighslider;
 	private GuiSlider typeslider;
 	private GuiButton btnEnable;
 	boolean enabled = false;
 	private int mode = 0;
-	private int type;
-	public GuiFirework(TEFirework t) {
+	private Shape type;
+	public GuiFirework(BlockPos pos) {
 		// TODO Auto-generated constructor stub
-		this.te = t;
+		this.pos = pos;
+		this.blockState = mc.world.getBlockState(pos);
+		this.block = (BlockFireworkShooter) mc.world.getBlockState(pos).getBlock();
 	}
 
 	@Override
@@ -47,8 +46,7 @@ public class GuiFirework extends GuiScreen{
 	@Override
 	public void initGui() {
 		// TODO Auto-generated method stub
-		GuiButton xbtn;//GuiMainMenu
-		this.addButton(xbtn = new GuiButtonExt(0, width/2-100, 190, I18n.format("gui.done")){
+		this.addButton(new GuiButtonExt(0, width/2-100, 190, I18n.format("gui.done")){
 			/**
 			 * Called when the left mouse button is pressed over this button. This method is specific to GuiButton.
 			 */
@@ -56,8 +54,8 @@ public class GuiFirework extends GuiScreen{
 				GuiFirework.this.mc.displayGuiScreen(null);
 			}
 		});
-		this.addButton(durslider = new GuiSlider(1, width/2-100, 45, 200, 20, I18n.format("gui.delay")+" ", " "+I18n.format("gui.seconds"), 1, 10, te.getDelay(), false, true));
-		this.addButton(flighslider = new GuiSlider(2, width/2-100, 70, 200, 20, I18n.format("item.minecraft.firework_rocket.flight")+" ", "", 1, 3, te.getFlight(), false, true));
+		this.addButton(durslider = new GuiSlider(1, width/2-100, 45, 200, 20, I18n.format("gui.delay")+" ", " "+I18n.format("gui.seconds"), 1, 10, blockState.get(BlockFireworkShooter.DELAY), false, true));
+		this.addButton(flighslider = new GuiSlider(2, width/2-100, 70, 200, 20, I18n.format("item.minecraft.firework_rocket.flight")+" ", "", 1, 3, blockState.get(BlockFireworkShooter.FLIGHT), false, true));
 		this.addButton(btnEnable = new GuiButtonExt(3, width/2-100, 160, I18n.format("gui.fwdisabled")) {
 
 			public void onClick(double mouseX, double mouseY) {
@@ -66,27 +64,23 @@ public class GuiFirework extends GuiScreen{
 			};
 
 		});
-		this.addButton(typeslider = new GuiSlider(4, width/2-100, 100, 200, 20, I18n.format("item.fireworksCharge.type")+" ", "", 0, 5, te.getFWType(), false, false));
-		this.mode = te.getMode();
-		this.type = te.getFWType();
+		this.addButton(typeslider = new GuiSlider(4, width/2-100, 100, 200, 20, I18n.format("item.fireworksCharge.type")+" ", "", 0, ItemCustomRocket.Shape.values().length-1,blockState.get(BlockFireworkShooter.SHAPE).getID(), false, false));
+		this.mode = blockState.get(BlockFireworkShooter.MODE).getID();
+		this.type = blockState.get(BlockFireworkShooter.SHAPE);
 	}
 
 	@Override
 	public void render(int mouseX, int mouseY, float partialTicks) {
 		// TODO Auto-generated method stub
-		this.type = (int) Math.round(typeslider.getValue());
+		this.type = ItemCustomRocket.Shape.getShape((int) Math.round(typeslider.getValue()));
 		String modestring = I18n.format("gui.fwmode")+" ";
 		if(this.mode > 5) modestring = modestring+I18n.format("gui.fwmodes");
 		else modestring = modestring+I18n.format("gui.fwmodes."+this.mode);
 		String typestring = I18n.format("gui.fwtype")+" ";
-		switch(this.type){
-		case 0:
-			typestring = typestring+I18n.format("gui.fwtype0");
-			break;
-		default:
-			typestring = typestring+I18n.format("item.minecraft.firework_star.shape"+getTypeString(this.type));
-			break;
-		}
+
+		typestring = typestring+I18n.format("item.minecraft.firework_star.shape"+getTypeString(this.type));
+
+
 		btnEnable.displayString = modestring;
 		typeslider.displayString = typestring;
 		drawBackground(1);
@@ -97,18 +91,15 @@ public class GuiFirework extends GuiScreen{
 	}
 
 
-	private String getTypeString(int type) {
+	private String getTypeString(Shape type) {
 		switch(type) {
-		case 1:
-			return ".small_ball";
-		case 2:
-			return ".large_ball";
-		case 3:
-			return ".star";
-		case 4:
-			return ".creeper";
-		case 5:
-			return ".burst";
+		case SMALL_BALL:
+		case LARGE_BALL:
+		case STAR:
+		case CREEPER:
+		case BURST:
+		case RANDOM:
+			return "."+type.getName();
 		default:
 			return "";
 		}
@@ -118,11 +109,12 @@ public class GuiFirework extends GuiScreen{
 	public void onGuiClosed() {
 		// TODO Auto-generated method stub
 		int delay = (int) Math.round(durslider.getValue());
-		int flight = (int) Math.round(flighslider.getValue());
-		MainClass.TESHOOTERUPDATECHANNEL.sendToServer(new UpdateTE(te.getPos().getX()+";"+te.getPos().getY()+";"+te.getPos().getZ()+";"+te.getWorld().getDimension().getType().getId()+";delay;"+delay));
-		MainClass.TESHOOTERUPDATECHANNEL.sendToServer(new UpdateTE(te.getPos().getX()+";"+te.getPos().getY()+";"+te.getPos().getZ()+";"+te.getWorld().getDimension().getType().getId()+";flight;"+flight));
-		MainClass.TESHOOTERUPDATECHANNEL.sendToServer(new UpdateTE(te.getPos().getX()+";"+te.getPos().getY()+";"+te.getPos().getZ()+";"+te.getWorld().getDimension().getType().getId()+";mode;"+mode));
-		MainClass.TESHOOTERUPDATECHANNEL.sendToServer(new UpdateTE(te.getPos().getX()+";"+te.getPos().getY()+";"+te.getPos().getZ()+";"+te.getWorld().getDimension().getType().getId()+";type;"+type));
+		int flight = (int) Math.round(flighslider.getValue()); //WorldClient
+		mc.world.setBlockState(pos, mc.world.getBlockState(pos).with(BlockFireworkShooter.DELAY, delay).with(BlockFireworkShooter.FLIGHT, flight).with(BlockFireworkShooter.MODE, BlockFireworkShooter.Mode.getMode(this.mode)).with(BlockFireworkShooter.SHAPE, this.type));
+//		MainClass.TESHOOTERUPDATECHANNEL.sendToServer(new UpdateTE(pos.getPos().getX()+";"+pos.getPos().getY()+";"+pos.getPos().getZ()+";"+pos.getWorld().getDimension().getType().getId()+";delay;"+delay));
+//		MainClass.TESHOOTERUPDATECHANNEL.sendToServer(new UpdateTE(pos.getPos().getX()+";"+pos.getPos().getY()+";"+pos.getPos().getZ()+";"+pos.getWorld().getDimension().getType().getId()+";flight;"+flight));
+//		MainClass.TESHOOTERUPDATECHANNEL.sendToServer(new UpdateTE(pos.getPos().getX()+";"+pos.getPos().getY()+";"+pos.getPos().getZ()+";"+pos.getWorld().getDimension().getType().getId()+";mode;"+mode));
+//		MainClass.TESHOOTERUPDATECHANNEL.sendToServer(new UpdateTE(pos.getPos().getX()+";"+pos.getPos().getY()+";"+pos.getPos().getZ()+";"+pos.getWorld().getDimension().getType().getId()+";type;"+type));
 		super.onGuiClosed();
 	}
 

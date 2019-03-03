@@ -1,4 +1,4 @@
-package de.erdbeerbaerlp.creativefirework.creativeTabs;
+package de.erdbeerbaerlp.creativefirework.itemGroups;
 
 import de.erdbeerbaerlp.creativefirework.MainClass;
 import net.minecraft.client.resources.I18n;
@@ -11,10 +11,10 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.NonNullList;
 
-public class tabFirework extends ItemGroup {
+public class GroupFirework extends ItemGroup {
 
 	boolean hasSearchBar = false;
-	public tabFirework(String label) {
+	public GroupFirework(String label) {
 		super(label);
 		// TODO Auto-generated constructor stub
 		
@@ -24,7 +24,7 @@ public class tabFirework extends ItemGroup {
 	@Override
 	public ItemStack createIcon() {
 		// TODO Auto-generated method stub
-		return new ItemStack(Items.FIREWORK_ROCKET);
+		return new ItemStack(MainClass.CustomRocket);
 	}
 
 	@Override
@@ -112,7 +112,7 @@ public class tabFirework extends ItemGroup {
 		
 		nbt.setInt("HideFlags", 63);
 		nbt.setTag("display", disp);
-		ItemStack i = new ItemStack(Items.FIREWORK_ROCKET);
+		ItemStack i = new ItemStack(MainClass.CustomRocket);
 		i.setTag(nbt);
 //		System.out.println(nbt);
 		return i;

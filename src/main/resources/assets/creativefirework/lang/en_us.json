@@ -12,7 +12,7 @@
     "gui.fireworks.title": "Firework Settings",
     "gui.fwmodes": "§cUnknown!",
     "gui.fwtype": "Shape:",
-    "gui.fwtype0": "Random",
+    "item.minecraft.firework_star.shape.random": "Random",
 
 
     "itemGroup.fireworks.name": "Fireworks",
