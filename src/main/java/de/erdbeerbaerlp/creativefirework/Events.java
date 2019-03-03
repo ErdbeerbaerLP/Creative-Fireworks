@@ -1,18 +1,14 @@
 package de.erdbeerbaerlp.creativefirework;
 
 import de.erdbeerbaerlp.creativefirework.blocks.BlockFireworkShooter;
-import de.erdbeerbaerlp.creativefirework.blocks.tileEntity.TEFirework;
 import de.erdbeerbaerlp.creativefirework.entity.EntityCustomRocket;
 import de.erdbeerbaerlp.creativefirework.items.ItemCustomFireworkStar;
 import de.erdbeerbaerlp.creativefirework.items.ItemCustomRocket;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.item.EntityFireworkRocket;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -27,10 +23,7 @@ public class Events {
 		event.getRegistry().register(new BlockFireworkShooter(Block.Properties.create(Material.GROUND).hardnessAndResistance(0.5f, 0f)));
 	
 	}
-	@SubscribeEvent
-	public static void registerTileEntity(RegistryEvent.Register<TileEntityType<?>> ev) {
-		MainClass.FWShooterTE = TileEntityType.register(MainClass.MOD_ID+":tefireworkshooter", TileEntityType.Builder.create(TEFirework::new)); 
-	}
+
 	@SubscribeEvent
 	public static void registerItems(RegistryEvent.Register<Item> event) {
 		System.out.println("Registering items"); //ItemDebugStick

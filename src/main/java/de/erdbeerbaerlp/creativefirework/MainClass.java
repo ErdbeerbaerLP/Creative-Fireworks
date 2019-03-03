@@ -4,11 +4,9 @@ import java.util.logging.Logger;
 
 import com.google.common.base.Predicate;
 
-import de.erdbeerbaerlp.creativefirework.blocks.tileEntity.TEFirework;
 import de.erdbeerbaerlp.creativefirework.entity.EntityCustomRocket;
 import de.erdbeerbaerlp.creativefirework.itemGroups.GroupFirework;
 import de.erdbeerbaerlp.creativefirework.items.ItemCustomRocket;
-import de.erdbeerbaerlp.creativefirework.networking.UpdateTE;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
@@ -45,16 +43,12 @@ public class MainClass {
 		MinecraftForge.EVENT_BUS.addListener(this::serverStarting);
 		MinecraftForge.EVENT_BUS.addListener(this::commonSetup);
 		MinecraftForge.EVENT_BUS.register(UpdateCheck.class);
-		TESHOOTERUPDATECHANNEL.<UpdateTE>registerMessage(0, UpdateTE.class, (a, b) -> a.encode(a,b), (a) -> {a.readInt();return new UpdateTE(a.readString(300));}, (a, b) -> a.onMessageReceived(a,b));
-		
 	}
 	public void commonSetup(FMLCommonSetupEvent evt) {
 	}
 	public void serverStarting(FMLServerStartingEvent evt)
 	{
 	}
-
-	public static TileEntityType<TEFirework> FWShooterTE;
 	public static EntityType<EntityCustomRocket> CUSTOM_ROCKET_TYPE;
 
 

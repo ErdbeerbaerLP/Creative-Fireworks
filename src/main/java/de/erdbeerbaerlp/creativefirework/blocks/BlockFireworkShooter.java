@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.google.common.collect.ImmutableMap;
 
-import de.erdbeerbaerlp.creativefirework.blocks.tileEntity.TEFirework;
 import de.erdbeerbaerlp.creativefirework.gui.GuiFirework;
 import de.erdbeerbaerlp.creativefirework.items.ItemCustomRocket;
 import net.minecraft.block.Block;
