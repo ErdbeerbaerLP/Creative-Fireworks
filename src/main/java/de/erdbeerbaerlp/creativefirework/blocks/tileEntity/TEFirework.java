@@ -188,7 +188,7 @@ public class TEFirework extends TileEntity implements ITickable{
 			if(hole2 == 0) addz = 0.2;
 			if(hole2 == 1) addz = 0.5;
 			if(hole2 == 2) addz = 0.75;
-			if(canFire) {
+			if(canFire) { //WorldClient
 				Entity e = new EntityFireworkRocket(worldIn, pos.getX()+addx, pos.getY(), pos.getZ()+addz, getFirework(getFlight(), (getFWType()==0) ? r.nextInt(5):(getFWType()-1), r.nextBoolean(), r.nextBoolean(), colors, fade));
 				worldIn.spawnEntity(e);
 			}else {
