@@ -1,0 +1,29 @@
+{
+    "type": "crafting_shaped",
+    "pattern": [
+        "#D#",
+        "PFP",
+        "#Q#"
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:stone"
+        },
+        "D": {
+            "item": "minecraft:dispenser"
+        },
+        "P": {
+            "item": "minecraft:paper"
+        },
+        "F": {
+            "item": "minecraft:firework_rocket"
+        },
+        "Q": {
+            "item": "minecraft:flint_and_steel"
+        }
+    },
+    "result": {
+    "item": "creativefirework:fireworkshooter",
+    "count": 1
+    }
+}
