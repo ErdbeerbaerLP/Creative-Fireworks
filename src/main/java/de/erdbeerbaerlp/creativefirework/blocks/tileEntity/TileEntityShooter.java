@@ -68,7 +68,7 @@ public class TileEntityShooter extends TileEntity implements ITickable{
             	world.setBlockState(pos, state.with(GUNPOWDER, state.get(GUNPOWDER)+(5*itemCount)));
             	item.remove();
             }else if(item.getItem().getItem() == Blocks.TNT.asItem()) {
-            	world.setBlockState(pos, state.with(GUNPOWDER, state.get(GUNPOWDER)+(7*itemCount)));
+            	world.setBlockState(pos, state.with(GUNPOWDER, state.get(GUNPOWDER)+(25*itemCount)));
             	item.setItem(new ItemStack(Blocks.SAND, 5*itemCount));
             }
          }
