@@ -4,24 +4,22 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
-import com.google.common.collect.ImmutableMap;
-
+import de.erdbeerbaerlp.creativefirework.MainClass.Shape;
+import de.erdbeerbaerlp.creativefirework.blocks.tileEntity.TileEntityShooter;
 import de.erdbeerbaerlp.creativefirework.gui.GuiFirework;
-import de.erdbeerbaerlp.creativefirework.items.ItemCustomRocket;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.fluid.IFluidState;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.EnumProperty;
-import net.minecraft.state.IProperty;
 import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.StateContainer.Builder;
 import net.minecraft.tileentity.TileEntity;
@@ -37,41 +35,38 @@ import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.DistExecutor;
 
-public class BlockFireworkShooter extends Block {
-	public static final EnumProperty<ItemCustomRocket.Shape> SHAPE = EnumProperty.create("shape", ItemCustomRocket.Shape.class);
+public class BlockFireworkShooter extends Block{
+	public static final EnumProperty<Shape> SHAPE = EnumProperty.create("shape", Shape.class);
 	public static final IntegerProperty FLIGHT = IntegerProperty.create("flight_duration", 0, 3);
 	public static final IntegerProperty DELAY = IntegerProperty.create("delay", 1, 10);
-	public static final EnumProperty<Mode> MODE = EnumProperty.create("mode", BlockFireworkShooter.Mode.class);
+	public static final EnumProperty<Mode> MODE = EnumProperty.create("mode", Mode.class);
+	public static final IntegerProperty PAPER = IntegerProperty.create("paper", 0, Integer.MAX_VALUE);
+	public static final IntegerProperty GUNPOWDER = IntegerProperty.create("gunpowder", 0, Integer.MAX_VALUE);
+	public static final BooleanProperty CREATIVE = BooleanProperty.create("creative");
+
 
 	public BlockFireworkShooter(Properties properties) {
 		super(properties);
 		setRegistryName("fireworkshooter");
-		setDefaultState(this.stateContainer.getBaseState().with(SHAPE, ItemCustomRocket.Shape.RANDOM).with(FLIGHT, 3).with(DELAY, 3).with(MODE, Mode.ALWAYS_OFF));
+		setDefaultState(this.stateContainer.getBaseState().with(SHAPE, Shape.RANDOM).with(FLIGHT, 3).with(DELAY, 3).with(MODE, Mode.ALWAYS_OFF).with(GUNPOWDER, 5).with(PAPER, 5).with(CREATIVE, false));
 	}
 	@Override
+	public TileEntity createTileEntity(IBlockState state, IBlockReader world) {
+		return new TileEntityShooter();
+	}
+	@Override
+	public boolean hasTileEntity(IBlockState state) {
+		return true;
+	}
+	
 	protected void fillStateContainer(Builder<Block, IBlockState> builder) {
-		// TODO Auto-generated method stub
-		builder.add(SHAPE,FLIGHT,DELAY,MODE);
+		builder.add(SHAPE,FLIGHT,DELAY,MODE,GUNPOWDER,PAPER,CREATIVE);
 	}
 	@Override
 	public IBlockState getStateForPlacement(BlockItemUseContext context) {
-		return this.stateContainer.getBaseState().with(SHAPE, ItemCustomRocket.Shape.RANDOM).with(FLIGHT, 3).with(DELAY, 3).with(MODE, Mode.ALWAYS_OFF);
-	}
-	@Override
-	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer,
-			ItemStack stack) {
-		super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
-		if(stack.hasTag()) {
-			NBTTagCompound data = stack.getTag().getCompound("blockdata");
-			if(data.size() != 0) {
-				data.setInt("x", pos.getX());
-				data.setInt("y", pos.getY());
-				data.setInt("z", pos.getZ());
-			}}
-		//		worldIn.notifyBlockUpdate(pos, state, state, 2); BlockPlanks
+		return this.stateContainer.getBaseState().with(SHAPE, Shape.RANDOM).with(FLIGHT, 3).with(DELAY, 3).with(MODE, Mode.ALWAYS_OFF).with(GUNPOWDER, 5).with(PAPER, 5).with(CREATIVE, context.getPlayer().isCreative());
 	}
 	private ItemStack addNBT(ItemStack is, IBlockState state) {
 		NBTTagCompound nbt = new NBTTagCompound();
@@ -85,14 +80,14 @@ public class BlockFireworkShooter extends Block {
 		return is;
 	}
 	private String getTypeString(int type) {
-		switch(ItemCustomRocket.Shape.getShape(type)) {
+		switch(Shape.getShape(type)) {
 		case SMALL_BALL:
 		case LARGE_BALL:
 		case STAR:
 		case CREEPER:
 		case BURST:
 		case RANDOM:
-			return "."+ItemCustomRocket.Shape.getShape(type).getName();
+			return "."+Shape.getShape(type).getName();
 		default:
 			return "";
 		}
@@ -136,9 +131,7 @@ public class BlockFireworkShooter extends Block {
 	}
 	@Override
 	public void harvestBlock(World world, net.minecraft.entity.player.EntityPlayer player, BlockPos pos, IBlockState state, TileEntity te, ItemStack stack) {
-		// TODO Auto-generated method stub
 		if (!world.isRemote) world.spawnEntity(new EntityItem(world, pos.getX(),pos.getY(),pos.getZ(), addNBT(new ItemStack(this), state)));
-
 		super.harvestBlock(world, player, pos, state, te, stack);
 	}
 
@@ -174,6 +167,7 @@ public class BlockFireworkShooter extends Block {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
 	public static enum Mode implements IStringSerializable{
 		REDSTONE(0, "redstone"),
 		REDSTONE_INVERTED(1, "redstone_inverted"),
@@ -209,4 +203,6 @@ public class BlockFireworkShooter extends Block {
 		}
 
 	}
+
+
 }

@@ -24,7 +24,7 @@ public class GroupFirework extends ItemGroup {
 	@Override
 	public ItemStack createIcon() {
 		// TODO Auto-generated method stub
-		return new ItemStack(MainClass.CustomRocket);
+		return new ItemStack(Items.FIREWORK_ROCKET);
 	}
 
 	@Override
@@ -112,7 +112,7 @@ public class GroupFirework extends ItemGroup {
 		
 		nbt.setInt("HideFlags", 63);
 		nbt.setTag("display", disp);
-		ItemStack i = new ItemStack(MainClass.CustomRocket);
+		ItemStack i = new ItemStack(Items.FIREWORK_ROCKET);
 		i.setTag(nbt);
 //		System.out.println(nbt);
 		return i;
