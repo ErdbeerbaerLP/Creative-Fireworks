@@ -1,10 +1,8 @@
 package de.erdbeerbaerlp.creativefirework.gui;
-import static de.erdbeerbaerlp.creativefirework.blocks.BlockFireworkShooter.CREATIVE;
-import static de.erdbeerbaerlp.creativefirework.blocks.BlockFireworkShooter.GUNPOWDER;
-import static de.erdbeerbaerlp.creativefirework.blocks.BlockFireworkShooter.PAPER;
-
+import static de.erdbeerbaerlp.creativefirework.blocks.BlockFireworkShooter.*;
 import de.erdbeerbaerlp.creativefirework.MainClass.Shape;
 import de.erdbeerbaerlp.creativefirework.blocks.BlockFireworkShooter;
+import de.erdbeerbaerlp.creativefirework.blocks.tileEntity.TileEntityShooter;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -41,6 +39,7 @@ public class GuiFirework extends GuiScreen{
 	public boolean doesGuiPauseGame() {
 		return false;
 	}
+	
 	@Override
 	public void initGui() {
 		this.addButton(new GuiButtonExt(0, width/2-100, 190, I18n.format("gui.done")){
@@ -60,7 +59,6 @@ public class GuiFirework extends GuiScreen{
 				if(GuiFirework.this.mode >5 || GuiFirework.this.mode <0) GuiFirework.this.mode = 0;
 			};
 
-
 		});
 		this.addButton(typeslider = new GuiSlider(4, width/2-100, 100, 200, 20, I18n.format("item.fireworksCharge.type")+" ", "", 0, Shape.values().length-1,blockState.get(BlockFireworkShooter.SHAPE).getID(), false, false));
 		this.mode = blockState.get(BlockFireworkShooter.MODE).getID();
@@ -69,26 +67,21 @@ public class GuiFirework extends GuiScreen{
 
 	@Override
 	public void render(int mouseX, int mouseY, float partialTicks) {
-		// TODO Auto-generated method stub
 		this.type = Shape.getShape((int) Math.round(typeslider.getValue()));
 		String modestring = I18n.format("gui.fwmode")+" ";
 		if(this.mode > 5) modestring = modestring+I18n.format("gui.fwmodes");
 		else modestring = modestring+I18n.format("gui.fwmodes."+this.mode);
 		String typestring = I18n.format("gui.fwtype")+" ";
-
 		typestring = typestring+I18n.format("item.minecraft.firework_star.shape"+getTypeString(this.type));
-
-
 		btnEnable.displayString = modestring;
 		typeslider.displayString = typestring;
 		drawBackground(1);
 		drawCenteredString(fontRenderer, I18n.format("gui.fireworks.title"), this.width / 2, 15, 16777215);
 		if(!world.getBlockState(pos).get(CREATIVE)) {
-			drawCenteredString(fontRenderer, I18n.format("item.minecraft.paper")+": "+world.getBlockState(pos).get(PAPER), this.width / 2, 22, 16777215);
-			drawCenteredString(fontRenderer, I18n.format("item.minecraft.gunpowder")+": "+world.getBlockState(pos).get(GUNPOWDER), this.width / 2, 28, 16777215);
+			drawCenteredString(fontRenderer, I18n.format("item.minecraft.paper")+": "+((TileEntityShooter)world.getTileEntity(pos)).getPaper(), this.width / 2, 125, 16777215);
+			drawCenteredString(fontRenderer, I18n.format("item.minecraft.gunpowder")+": "+((TileEntityShooter)world.getTileEntity(pos)).getGunpowder(), this.width / 2, 135, 16777215);
 		}
 		super.render(mouseX, mouseY, partialTicks);
-
 	}
 
 
@@ -108,7 +101,6 @@ public class GuiFirework extends GuiScreen{
 
 	@Override
 	public void onGuiClosed() {
-		// TODO Auto-generated method stub
 		int delay = (int) Math.round(durslider.getValue());
 		int flight = (int) Math.round(flighslider.getValue()); //WorldClient
 		world.setBlockState(pos, world.getBlockState(pos).with(BlockFireworkShooter.DELAY, delay).with(BlockFireworkShooter.FLIGHT, flight).with(BlockFireworkShooter.MODE, BlockFireworkShooter.Mode.getMode(this.mode)).with(BlockFireworkShooter.SHAPE, this.type));
@@ -123,7 +115,6 @@ public class GuiFirework extends GuiScreen{
 		BufferBuilder bufferbuilder = tessellator.getBuffer();
 		this.mc.getTextureManager().bindTexture(new ResourceLocation("textures/block/bricks.png"));
 		GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-		float f = 32.0F;
 		bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
 		bufferbuilder.pos(0.0D, (double)this.height, 0.0D).tex(0.0D, (double)((float)this.height / 32.0F + (float)tint)).color(64, 64, 64, 255).endVertex();
 		bufferbuilder.pos((double)this.width, (double)this.height, 0.0D).tex((double)((float)this.width / 32.0F), (double)((float)this.height / 32.0F + (float)tint)).color(64, 64, 64, 255).endVertex();

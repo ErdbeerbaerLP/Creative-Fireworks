@@ -12,6 +12,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.fluid.IFluidState;
@@ -42,15 +43,13 @@ public class BlockFireworkShooter extends Block{
 	public static final IntegerProperty FLIGHT = IntegerProperty.create("flight_duration", 0, 3);
 	public static final IntegerProperty DELAY = IntegerProperty.create("delay", 1, 10);
 	public static final EnumProperty<Mode> MODE = EnumProperty.create("mode", Mode.class);
-	public static final IntegerProperty PAPER = IntegerProperty.create("paper", 0, Integer.MAX_VALUE);
-	public static final IntegerProperty GUNPOWDER = IntegerProperty.create("gunpowder", 0, Integer.MAX_VALUE);
 	public static final BooleanProperty CREATIVE = BooleanProperty.create("creative");
 
 
 	public BlockFireworkShooter(Properties properties) {
 		super(properties);
 		setRegistryName("fireworkshooter");
-		setDefaultState(this.stateContainer.getBaseState().with(SHAPE, Shape.RANDOM).with(FLIGHT, 3).with(DELAY, 3).with(MODE, Mode.ALWAYS_OFF).with(GUNPOWDER, 5).with(PAPER, 5).with(CREATIVE, false));
+		setDefaultState(this.stateContainer.getBaseState().with(SHAPE, Shape.RANDOM).with(FLIGHT, 3).with(DELAY, 3).with(MODE, Mode.ALWAYS_OFF).with(CREATIVE, false));
 	}
 	@Override
 	public TileEntity createTileEntity(IBlockState state, IBlockReader world) {
@@ -62,11 +61,11 @@ public class BlockFireworkShooter extends Block{
 	}
 	
 	protected void fillStateContainer(Builder<Block, IBlockState> builder) {
-		builder.add(SHAPE,FLIGHT,DELAY,MODE,GUNPOWDER,PAPER,CREATIVE);
+		builder.add(SHAPE,FLIGHT,DELAY,MODE,CREATIVE);
 	}
 	@Override
 	public IBlockState getStateForPlacement(BlockItemUseContext context) {
-		return this.stateContainer.getBaseState().with(SHAPE, Shape.RANDOM).with(FLIGHT, 3).with(DELAY, 3).with(MODE, Mode.ALWAYS_OFF).with(GUNPOWDER, 5).with(PAPER, 5).with(CREATIVE, context.getPlayer().isCreative());
+		return this.stateContainer.getBaseState().with(SHAPE, Shape.RANDOM).with(FLIGHT, 3).with(DELAY, 3).with(MODE, Mode.ALWAYS_OFF).with(CREATIVE, context.getPlayer().isCreative());
 	}
 	private ItemStack addNBT(ItemStack is, IBlockState state) {
 		NBTTagCompound nbt = new NBTTagCompound();
@@ -130,11 +129,40 @@ public class BlockFireworkShooter extends Block{
 		return super.removedByPlayer(state, world, pos, player, willHarvest, fluid);
 	}
 	@Override
+	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer,
+			ItemStack stack) {
+		TileEntity te = worldIn.getTileEntity(pos);
+		NBTTagCompound tag = stack.getTag();
+		if(te != null && te instanceof TileEntityShooter && tag != null) {
+			((TileEntityShooter)te).setPaper(tag.hasKey("paper")?tag.getInt("paper"):5);
+			((TileEntityShooter)te).setGunpowder(tag.hasKey("gunpowder")?tag.getInt("gunpowder"):5);
+		}
+		super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
+	}
+	@SuppressWarnings("deprecation")
+	@Override
+	public void onReplaced(IBlockState state, World worldIn, BlockPos pos, IBlockState newState, boolean isMoving) {
+		if(newState.getBlock() instanceof BlockFireworkShooter) return;
+		super.onReplaced(state, worldIn, pos, newState, isMoving);
+		
+	}
+	@Override
 	public void harvestBlock(World world, net.minecraft.entity.player.EntityPlayer player, BlockPos pos, IBlockState state, TileEntity te, ItemStack stack) {
-		if (!world.isRemote) world.spawnEntity(new EntityItem(world, pos.getX(),pos.getY(),pos.getZ(), addNBT(new ItemStack(this), state)));
+		if (!world.isRemote) {
+			NBTTagCompound tag = new NBTTagCompound();
+			if(te != null && te instanceof TileEntityShooter) {
+				tag.setInt("paper", ((TileEntityShooter)te).getPaper());
+				tag.setInt("gunpowder", ((TileEntityShooter)te).getGunpowder());
+			}
+			ItemStack item = addNBT(new ItemStack(this), state);
+			item.setTag(tag.merge(item.getTag()));
+			world.spawnEntity(new EntityItem(world, pos.getX(),pos.getY(),pos.getZ(), item));
+			te.remove();
+		}
+		
 		super.harvestBlock(world, player, pos, state, te, stack);
 	}
-
+	
 	@Override
 	public boolean onBlockActivated(IBlockState state, World worldIn, BlockPos pos, EntityPlayer player, EnumHand hand,
 			EnumFacing side, float hitX, float hitY, float hitZ) {
