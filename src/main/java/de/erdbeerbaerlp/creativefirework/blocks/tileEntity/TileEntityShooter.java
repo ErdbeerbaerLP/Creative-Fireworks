@@ -6,7 +6,6 @@ import de.erdbeerbaerlp.creativefirework.blocks.BlockFireworkShooter;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.client.renderer.texture.ITickable;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.FireworkRocketEntity;
 import net.minecraft.entity.item.ItemEntity;
@@ -16,6 +15,7 @@ import net.minecraft.nbt.IntArrayNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
+import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EntityPredicates;
 import net.minecraft.util.math.BlockPos;
@@ -30,10 +30,10 @@ import java.util.stream.Collectors;
 
 import static de.erdbeerbaerlp.creativefirework.blocks.BlockFireworkShooter.*;
 
-public class TileEntityShooter extends TileEntity implements ITickable {
-    VoxelShape COLLECTION_AREA_SHAPE = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 32.0D, 16.0D);
+public class TileEntityShooter extends TileEntity implements ITickableTileEntity {
+    final VoxelShape COLLECTION_AREA_SHAPE = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 32.0D, 16.0D);
     int i = 0;
-    Random r = new Random();
+    final Random r = new Random();
     private int paper = 5;
     private int gunpowder = 5;
 
