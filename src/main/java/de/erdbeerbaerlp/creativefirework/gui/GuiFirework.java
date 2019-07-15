@@ -1,6 +1,8 @@
 package de.erdbeerbaerlp.creativefirework.gui;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+import de.erdbeerbaerlp.creativefirework.BlockUpdatePacket;
+import de.erdbeerbaerlp.creativefirework.MainClass;
 import de.erdbeerbaerlp.creativefirework.MainClass.Shape;
 import de.erdbeerbaerlp.creativefirework.blocks.BlockFireworkShooter;
 import de.erdbeerbaerlp.creativefirework.blocks.tileEntity.TileEntityShooter;
@@ -108,7 +110,7 @@ public class GuiFirework extends Screen {
     public void onClose() {
         int delay = (int) Math.round(durslider.getValue());
         int flight = (int) Math.round(flighslider.getValue()); //WorldClient
-        world.setBlockState(pos, world.getBlockState(pos).with(BlockFireworkShooter.DELAY, delay).with(BlockFireworkShooter.FLIGHT, flight).with(BlockFireworkShooter.MODE, BlockFireworkShooter.Mode.getMode(this.mode)).with(BlockFireworkShooter.SHAPE, this.type));
+        MainClass.CHANNEL.sendToServer(new BlockUpdatePacket(pos, delay, flight, this.mode, this.type));
         super.onClose();
     }
 

@@ -36,7 +36,7 @@ public class MainClass {
     public static final Logger LOGGER = Logger.getLogger(MOD_ID);
     private static final String protVersion = "1.0.0";
     private static final Predicate<String> pred = (ver) -> ver.equals(protVersion);
-    public static final SimpleChannel TESHOOTERUPDATECHANNEL = NetworkRegistry.newSimpleChannel(new ResourceLocation(MainClass.MOD_ID, "te-fwshooter-channel"), () -> protVersion, pred, pred);
+    public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(new ResourceLocation(MainClass.MOD_ID, "te-fwshooter-channel"), () -> protVersion, pred, pred);
 
     public MainClass() {
         MinecraftForge.EVENT_BUS.addListener(this::serverStarting);
@@ -45,6 +45,7 @@ public class MainClass {
     }
 
     public void commonSetup(FMLCommonSetupEvent evt) {
+        CHANNEL.registerMessage(0, BlockUpdatePacket.class, BlockUpdatePacket::encode, BlockUpdatePacket::decode, BlockUpdatePacket.Handler::handle);
     }
 
     public void serverStarting(FMLServerStartingEvent evt) {

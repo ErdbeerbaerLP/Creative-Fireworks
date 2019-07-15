@@ -108,10 +108,9 @@ public class BlockFireworkShooter extends Block {
     @Override
     public void addInformation(ItemStack stack, IBlockReader worldIn, List<ITextComponent> tooltip,
                                ITooltipFlag flagIn) {
-        // TODO Auto-generated method stub
         if (stack.hasTag()) {
             CompoundNBT c = stack.getTag().getCompound("blockdata");
-            if (c != null && c.size() != 0) {
+            if (c.size() != 0) {
                 tooltip.add(new StringTextComponent(getLores()[0]));
                 tooltip.add(new StringTextComponent(getLores()[1]));
                 tooltip.add(new StringTextComponent(getLores()[2]));
@@ -145,7 +144,7 @@ public class BlockFireworkShooter extends Block {
                                 ItemStack stack) {
         TileEntity te = worldIn.getTileEntity(pos);
         CompoundNBT tag = stack.getTag();
-        if (te != null && te instanceof TileEntityShooter && tag != null) {
+        if (te instanceof TileEntityShooter && tag != null) {
             ((TileEntityShooter) te).setPaper(tag.contains("paper") ? tag.getInt("paper") : 5);
             ((TileEntityShooter) te).setGunpowder(tag.contains("gunpowder") ? tag.getInt("gunpowder") : 5);
         }
@@ -164,7 +163,7 @@ public class BlockFireworkShooter extends Block {
     public void harvestBlock(World world, PlayerEntity player, BlockPos pos, BlockState state, TileEntity te, ItemStack stack) {
         if (!world.isRemote) {
             CompoundNBT tag = new CompoundNBT();
-            if (te != null && te instanceof TileEntityShooter) {
+            if (te instanceof TileEntityShooter) {
                 tag.putInt("paper", ((TileEntityShooter) te).getPaper());
                 tag.putInt("gunpowder", ((TileEntityShooter) te).getGunpowder());
             }
@@ -206,7 +205,6 @@ public class BlockFireworkShooter extends Block {
 
     @Override
     public boolean canDropFromExplosion(Explosion explosionIn) {
-        // TODO Auto-generated method stub
         return false;
     }
 
@@ -237,7 +235,6 @@ public class BlockFireworkShooter extends Block {
 
         @Override
         public String getName() {
-            // TODO Auto-generated method stub
             return this.name;
         }
 
