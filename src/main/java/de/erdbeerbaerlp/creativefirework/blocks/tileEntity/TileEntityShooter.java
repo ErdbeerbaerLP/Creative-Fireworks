@@ -71,9 +71,6 @@ public class TileEntityShooter extends TileEntity implements ITickableTileEntity
         read(pkt.getNbtCompound());
     }
 
-
-    // -----  Fireworking!   -----
-
     @Override
     public CompoundNBT getUpdateTag() {
         System.out.println("GetUpdate");
@@ -90,8 +87,8 @@ public class TileEntityShooter extends TileEntity implements ITickableTileEntity
     @Override
     public void tick() {
 
-        BlockPos pos = this.getPos();
-        BlockState state = world.getBlockState(pos);
+        final BlockPos pos = this.getPos();
+        final BlockState state = world.getBlockState(pos);
         if (!(state.getBlock() instanceof BlockFireworkShooter)) return;
         if (world.isRemote) {
             i = 0;
@@ -239,7 +236,6 @@ public class TileEntityShooter extends TileEntity implements ITickableTileEntity
     }
 
     public int getGunpowder() {
-        // TODO Auto-generated method stub
         return this.gunpowder;
     }
 
