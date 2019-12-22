@@ -41,7 +41,6 @@ public class MainClass {
     public MainClass() {
         MinecraftForge.EVENT_BUS.addListener(this::serverStarting);
         MinecraftForge.EVENT_BUS.addListener(this::commonSetup);
-        MinecraftForge.EVENT_BUS.register(UpdateCheck.class);
     }
 
     public void commonSetup(FMLCommonSetupEvent evt) {
