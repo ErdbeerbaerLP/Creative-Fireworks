@@ -9,10 +9,10 @@ import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
 import net.minecraftforge.registries.ObjectHolder;
@@ -39,11 +39,12 @@ public class MainClass {
     public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(new ResourceLocation(MainClass.MOD_ID, "te-fwshooter-channel"), () -> protVersion, pred, pred);
 
     public MainClass() {
-        MinecraftForge.EVENT_BUS.addListener(this::serverStarting);
-        MinecraftForge.EVENT_BUS.addListener(this::commonSetup);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::serverStarting);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::commonSetup);
     }
 
     public void commonSetup(FMLCommonSetupEvent evt) {
+        System.out.println("common");
         CHANNEL.registerMessage(0, BlockUpdatePacket.class, BlockUpdatePacket::encode, BlockUpdatePacket::decode, BlockUpdatePacket.Handler::handle);
     }
 

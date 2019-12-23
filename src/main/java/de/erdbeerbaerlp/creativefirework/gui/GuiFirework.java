@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.StringTextComponent;
@@ -23,6 +24,7 @@ import net.minecraftforge.fml.client.config.GuiSlider;
 import static de.erdbeerbaerlp.creativefirework.blocks.BlockFireworkShooter.CREATIVE;
 
 
+@SuppressWarnings("NoTranslation")
 public class GuiFirework extends Screen {
     boolean enabled = false;
     private BlockPos pos;
@@ -54,7 +56,8 @@ public class GuiFirework extends Screen {
              * Called when the left mouse button is pressed over this button. This method is specific to GuiButton.
              */
             public void onClick(double mouseX, double mouseY) {
-                GuiFirework.this.minecraft.displayGuiScreen(null);
+                onClose();
+                minecraft.displayGuiScreen(null);
             }
         });
         this.addButton(durslider = new GuiSlider(width / 2 - 100, 45, 200, 20, I18n.format("gui.delay") + " ", " " + I18n.format("gui.seconds"), 1, 10, blockState.get(BlockFireworkShooter.DELAY), false, true, null));
@@ -84,7 +87,9 @@ public class GuiFirework extends Screen {
         typeslider.setMessage(typestring);
         renderBackground(1);
         drawCenteredString(font, I18n.format("gui.fireworks.title"), this.width / 2, 15, 16777215);
+
         if (!world.getBlockState(pos).get(CREATIVE)) {
+            final ClientWorld world = minecraft.world;
             drawCenteredString(font, I18n.format("item.minecraft.paper") + ": " + ((TileEntityShooter) world.getTileEntity(pos)).getPaper(), this.width / 2, 125, 16777215);
             drawCenteredString(font, I18n.format("item.minecraft.gunpowder") + ": " + ((TileEntityShooter) world.getTileEntity(pos)).getGunpowder(), this.width / 2, 135, 16777215);
         }
@@ -109,7 +114,7 @@ public class GuiFirework extends Screen {
     @Override
     public void onClose() {
         int delay = (int) Math.round(durslider.getValue());
-        int flight = (int) Math.round(flighslider.getValue()); //WorldClient
+        int flight = (int) Math.round(flighslider.getValue());
         MainClass.CHANNEL.sendToServer(new BlockUpdatePacket(pos, delay, flight, this.mode, this.type));
         super.onClose();
     }
@@ -123,10 +128,10 @@ public class GuiFirework extends Screen {
         this.minecraft.getTextureManager().bindTexture(new ResourceLocation("textures/block/bricks.png"));
         GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
-        bufferbuilder.pos(0.0D, (double) this.height, 0.0D).tex(0.0D, (double) ((float) this.height / 32.0F + (float) tint)).color(64, 64, 64, 255).endVertex();
-        bufferbuilder.pos((double) this.width, (double) this.height, 0.0D).tex((double) ((float) this.width / 32.0F), (double) ((float) this.height / 32.0F + (float) tint)).color(64, 64, 64, 255).endVertex();
-        bufferbuilder.pos((double) this.width, 0.0D, 0.0D).tex((double) ((float) this.width / 32.0F), (double) tint).color(64, 64, 64, 255).endVertex();
-        bufferbuilder.pos(0.0D, 0.0D, 0.0D).tex(0.0D, (double) tint).color(64, 64, 64, 255).endVertex();
+        bufferbuilder.pos(0.0D, this.height, 0.0D).tex(0.0D, (float) this.height / 32.0F + (float) tint).color(64, 64, 64, 255).endVertex();
+        bufferbuilder.pos(this.width, this.height, 0.0D).tex((float) this.width / 32.0F, (float) this.height / 32.0F + (float) tint).color(64, 64, 64, 255).endVertex();
+        bufferbuilder.pos(this.width, 0.0D, 0.0D).tex((float) this.width / 32.0F, tint).color(64, 64, 64, 255).endVertex();
+        bufferbuilder.pos(0.0D, 0.0D, 0.0D).tex(0.0D, tint).color(64, 64, 64, 255).endVertex();
         tessellator.draw();
     }
 }

@@ -17,26 +17,20 @@ public class GroupFirework extends ItemGroup {
 
     public GroupFirework(String label) {
         super(label);
-        // TODO Auto-generated constructor stub
-
-
     }
 
     @Override
     public ItemStack createIcon() {
-        // TODO Auto-generated method stub
         return new ItemStack(Items.FIREWORK_ROCKET);
     }
 
     @Override
     public boolean hasSearchBar() {
-        // TODO Auto-generated method stub
         return this.hasSearchBar;
     }
 
     @Override
     public void fill(NonNullList<ItemStack> l) {
-        // TODO Auto-generated method stub
         super.fill(l);
 
 
@@ -68,18 +62,7 @@ public class GroupFirework extends ItemGroup {
         if (l.size() > 50) this.hasSearchBar = true;
     }
 
-    @Override
-    public String getTabLabel() {
-        // TODO Auto-generated method stub
-        return I18n.format("fireworks.name");
-    }
-
-    @Override
-    public net.minecraft.util.ResourceLocation getBackgroundImage() {
-        return this.hasSearchBar ? (new net.minecraft.util.ResourceLocation("textures/gui/container/creative_inventory/tab_item_search.png")) : (new net.minecraft.util.ResourceLocation("textures/gui/container/creative_inventory/tab_items.png"));
-    }
-
-    private ItemStack getFirework(int flight, int shape, boolean trail, boolean flicker, int[] colors, int[] fadeColors, String displayName, String[] lores) {
+    public static ItemStack getFirework(int flight, int shape, boolean trail, boolean flicker, int[] colors, int[] fadeColors, String displayName, String[] lores) {
         if (flight > 3) flight = 3;
         CompoundNBT nbt = new CompoundNBT();
         CompoundNBT fw = new CompoundNBT();
@@ -98,14 +81,14 @@ public class GroupFirework extends ItemGroup {
         nbt.put("Fireworks", fw);
 
         CompoundNBT disp = new CompoundNBT();
-        if (!displayName.trim().isEmpty()) disp.putString("Name", "§r" + displayName);
+        if (!displayName.trim().isEmpty()) disp.putString("Name", "[{\"text\":\"§r" + displayName + "\"}]");
         ListNBT loretag = new ListNBT();
 //		System.out.println(lores.length);
         if (lores.length > 0) {
 
             for (String lore : lores) {
 //				System.out.println(lore);
-                loretag.add(new StringNBT("§r" + lore));
+                loretag.add(new StringNBT("{\"text\":\"§r" + lore + "\"}"));
             }
 //			System.out.println(loretag);
             disp.put("Lore", loretag);
@@ -117,8 +100,19 @@ public class GroupFirework extends ItemGroup {
         nbt.put("display", disp);
         ItemStack i = new ItemStack(Items.FIREWORK_ROCKET);
         i.setTag(nbt);
-//		System.out.println(nbt);
+//  	System.out.println(nbt);
         return i;
+    }
+
+    @Override
+    public net.minecraft.util.ResourceLocation getBackgroundImage() {
+        return this.hasSearchBar ? (new net.minecraft.util.ResourceLocation("textures/gui/container/creative_inventory/tab_item_search.png")) : (new net.minecraft.util.ResourceLocation("textures/gui/container/creative_inventory/tab_items.png"));
+    }
+
+    @SuppressWarnings("NoTranslation")
+    @Override
+    public String getTabLabel() {
+        return I18n.format("fireworks.name");
     }
 
     private ItemStack getFirework(int flight, int shape, boolean trail, boolean flicker, int[] colors, int[] fadeColors, String displayName) {

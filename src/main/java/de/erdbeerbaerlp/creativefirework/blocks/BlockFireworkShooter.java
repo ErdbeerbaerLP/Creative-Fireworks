@@ -40,7 +40,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
-@SuppressWarnings("deprecation")
+@SuppressWarnings({"deprecation", "NoTranslation"})
 public class BlockFireworkShooter extends Block {
     public static final EnumProperty<Shape> SHAPE = EnumProperty.create("shape", Shape.class);
     public static final IntegerProperty FLIGHT = IntegerProperty.create("flight_duration", 0, 3);
@@ -71,7 +71,26 @@ public class BlockFireworkShooter extends Block {
 
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.stateContainer.getBaseState().with(SHAPE, Shape.RANDOM).with(FLIGHT, 3).with(DELAY, 3).with(MODE, Mode.ALWAYS_OFF).with(CREATIVE, context.getPlayer().isCreative());
+        Shape shape = Shape.RANDOM;
+        int flight = 3;
+        int delay = 3;
+        Mode mode = Mode.ALWAYS_OFF;
+        if (context.getItem().hasTag()) {
+            final CompoundNBT nbt = context.getItem().getTag();
+            if (nbt != null && nbt.contains("blockdata")) {
+                final CompoundNBT bd = nbt.getCompound("blockdata");
+                if (bd.contains("flight")) flight = bd.getInt("flight");
+                if (bd.contains("delay")) delay = bd.getInt("delay");
+                if (bd.contains("mode")) mode = Mode.getMode(bd.getInt("mode"));
+                if (bd.contains("shape")) shape = Shape.getShape(bd.getInt("shape"));
+            }
+        }
+        return this.stateContainer.getBaseState()
+                .with(SHAPE, shape)
+                .with(FLIGHT, flight)
+                .with(DELAY, delay)
+                .with(MODE, mode)
+                .with(CREATIVE, context.getPlayer().isCreative());
     }
 
     private ItemStack addNBT(ItemStack is, BlockState state) {
@@ -171,6 +190,7 @@ public class BlockFireworkShooter extends Block {
             item.setTag(tag.merge(item.getTag()));
             world.addEntity(new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), item));
             te.remove();
+            world.removeBlock(pos, false);
         }
 
         super.harvestBlock(world, player, pos, state, te, stack);

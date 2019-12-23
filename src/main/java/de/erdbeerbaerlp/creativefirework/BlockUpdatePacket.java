@@ -22,7 +22,6 @@ public class BlockUpdatePacket {
     }
 
     public static void encode(BlockUpdatePacket msg, PacketBuffer buf) {
-        System.out.println("ENCODING");
         final CompoundNBT nbt = new CompoundNBT();
         nbt.putInt("posX", msg.pos.getX());
         nbt.putInt("posY", msg.pos.getY());
@@ -35,7 +34,6 @@ public class BlockUpdatePacket {
     }
 
     public static BlockUpdatePacket decode(PacketBuffer buf) {
-        System.out.println("DECODING");
         final CompoundNBT nbt = buf.readCompoundTag();
         final BlockPos bpos = new BlockPos(nbt.getInt("posX"), nbt.getInt("posY"), nbt.getInt("posZ"));
         return new BlockUpdatePacket(bpos, nbt.getInt("delay"), nbt.getInt("flight"), nbt.getInt("mode"), MainClass.Shape.getShape(nbt.getInt("type")));
@@ -47,9 +45,13 @@ public class BlockUpdatePacket {
                 // Work that needs to be threadsafe (most work)
                 ServerPlayerEntity sender = ctx.get().getSender(); // the client that sent this packet
                 // do stuff
-                sender.world.setBlockState(msg.pos, sender.world.getBlockState(msg.pos).with(BlockFireworkShooter.DELAY, msg.delay).with(BlockFireworkShooter.FLIGHT, msg.flight).with(BlockFireworkShooter.MODE, BlockFireworkShooter.Mode.getMode(msg.mode)).with(BlockFireworkShooter.SHAPE, MainClass.Shape.getShape(msg.type)));
+                if (sender != null) {
+                    sender.world.setBlockState(msg.pos, sender.world.getBlockState(msg.pos).with(BlockFireworkShooter.DELAY, msg.delay).with(BlockFireworkShooter.FLIGHT, msg.flight).with(BlockFireworkShooter.MODE, BlockFireworkShooter.Mode.getMode(msg.mode)).with(BlockFireworkShooter.SHAPE, MainClass.Shape.getShape(msg.type)));
+
+                } else System.out.println("Sender == null");
             });
             ctx.get().setPacketHandled(true);
+
         }
     }
 

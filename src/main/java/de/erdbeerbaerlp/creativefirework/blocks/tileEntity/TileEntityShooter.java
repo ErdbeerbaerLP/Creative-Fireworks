@@ -34,8 +34,8 @@ public class TileEntityShooter extends TileEntity implements ITickableTileEntity
     final VoxelShape COLLECTION_AREA_SHAPE = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 32.0D, 16.0D);
     int i = 0;
     final Random r = new Random();
-    private int paper = 5;
-    private int gunpowder = 5;
+    public int paper = 5;
+    public int gunpowder = 5;
 
     public TileEntityShooter() {
         super(MainClass.TE_FWSHOOTER);
@@ -100,28 +100,36 @@ public class TileEntityShooter extends TileEntity implements ITickableTileEntity
                 if (item.getItem().getItem() == Items.PAPER) {
                     setPaper(5 * itemCount + getPaper());
                     item.remove();
+                    world.notifyBlockUpdate(pos, state, state, 2);
                 } else if (item.getItem().getItem() == Items.GUNPOWDER) {
                     setGunpowder(5 * itemCount + getGunpowder());
                     item.remove();
+                    world.notifyBlockUpdate(pos, state, state, 2);
                 } else if (item.getItem().getItem() instanceof FireworkRocketItem) {
                     setPaper(5 * itemCount + getPaper());
                     setGunpowder(5 * itemCount + getGunpowder());
                     item.remove();
+                    world.notifyBlockUpdate(pos, state, state, 2);
                 } else if (item.getItem().getItem() instanceof FireworkStarItem) {
                     setGunpowder(5 * itemCount + getGunpowder());
                     item.remove();
+                    world.notifyBlockUpdate(pos, state, state, 2);
                 } else if (item.getItem().getItem() == Blocks.SUGAR_CANE.asItem()) {
                     setPaper(5 * itemCount + getPaper());
                     item.remove();
+                    world.notifyBlockUpdate(pos, state, state, 2);
                 } else if (item.getItem().getItem() == Items.BOOK || item.getItem().getItem() == Items.WRITTEN_BOOK || item.getItem().getItem() == Items.WRITABLE_BOOK) {
                     setPaper(15 * itemCount + getPaper());
                     item.setItem(new ItemStack(Items.LEATHER, itemCount));
+                    world.notifyBlockUpdate(pos, state, state, 2);
                 } else if (item.getItem().getItem() instanceof EnchantedBookItem) {
                     setPaper(30 * itemCount + getPaper());
                     item.remove();
+                    world.notifyBlockUpdate(pos, state, state, 2);
                 } else if (item.getItem().getItem() == Blocks.TNT.asItem()) {
                     setGunpowder(25 * itemCount + getGunpowder());
                     item.setItem(new ItemStack(Blocks.SAND, 4 * itemCount));
+                    world.notifyBlockUpdate(pos, state, state, 2);
                 }
             }
         if ((getGunpowder() <= 0 || getPaper() <= 0) && !state.get(CREATIVE)) return;
@@ -160,10 +168,9 @@ public class TileEntityShooter extends TileEntity implements ITickableTileEntity
             default:
                 return;
         }
-        boolean canFire = world.isAirBlock(new BlockPos(pos.getX(), pos.getY() + 1, pos.getZ()));
+        final boolean canFire = world.isAirBlock(new BlockPos(pos.getX(), pos.getY() + 1, pos.getZ()));
 
         if (i > (state.get(DELAY) * 20)) {
-            System.out.println("Fire!");
             final int[] colors = new int[r.nextInt(8)];
             for (int i = 0; i < colors.length; i++) {
                 colors[i] = r.nextInt(99999999);
@@ -187,6 +194,7 @@ public class TileEntityShooter extends TileEntity implements ITickableTileEntity
                 if (!state.get(CREATIVE)) {
                     setGunpowder(getGunpowder() - 1);
                     setPaper(getPaper() - 1);
+                    world.notifyBlockUpdate(pos, state, state, 2);
                 }
                 Entity e = new FireworkRocketEntity(world, pos.getX() + addx, pos.getY(), pos.getZ() + addz, getFirework(state.get(FLIGHT), state.get(SHAPE), r.nextBoolean(), r.nextBoolean(), colors, fade));
                 world.addEntity(e);
