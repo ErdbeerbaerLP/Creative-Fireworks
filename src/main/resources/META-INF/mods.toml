@@ -23,7 +23,7 @@ displayName="Creative Fireworks" #mandatory
 
 displayURL="https://minecraft.curseforge.com/projects/creative-fireworks" #optional
 
-updateJSONURL="http://erdbeerbaerapi.tk/creativefireworks.json/"
+#updateJSONURL="http://erdbeerbaerapi.tk/creativefireworks.json/"
 
 authors="ErdbeerbaerLP" #optional
 
