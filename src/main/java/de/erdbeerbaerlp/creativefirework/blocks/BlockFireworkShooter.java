@@ -20,6 +20,7 @@ import net.minecraft.state.EnumProperty;
 import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.StateContainer.Builder;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.IStringSerializable;
@@ -197,11 +198,10 @@ public class BlockFireworkShooter extends Block {
     }
 
     @Override
-    public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult result) {
+    public ActionResultType func_225533_a_(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult result) {
         if (hand == Hand.MAIN_HAND)
             DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> Minecraft.getInstance().displayGuiScreen(new GuiFirework(pos, worldIn)));
-
-        return true;
+        return ActionResultType.SUCCESS;
     }
 
     @Override

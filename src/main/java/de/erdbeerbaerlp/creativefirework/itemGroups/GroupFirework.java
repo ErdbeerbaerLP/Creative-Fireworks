@@ -88,7 +88,7 @@ public class GroupFirework extends ItemGroup {
 
             for (String lore : lores) {
 //				System.out.println(lore);
-                loretag.add(new StringNBT("{\"text\":\"§r" + lore + "\"}"));
+                loretag.add(StringNBT.func_229705_a_("{\"text\":\"§r" + lore + "\"}"));
             }
 //			System.out.println(loretag);
             disp.put("Lore", loretag);

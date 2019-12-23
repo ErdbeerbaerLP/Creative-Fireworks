@@ -1,6 +1,6 @@
 package de.erdbeerbaerlp.creativefirework.gui;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import de.erdbeerbaerlp.creativefirework.BlockUpdatePacket;
 import de.erdbeerbaerlp.creativefirework.MainClass;
 import de.erdbeerbaerlp.creativefirework.MainClass.Shape;
@@ -121,17 +121,17 @@ public class GuiFirework extends Screen {
 
     @Override
     public void renderBackground(int tint) {
-        GlStateManager.disableLighting();
-        GlStateManager.disableFog();
+        RenderSystem.disableLighting();
+        RenderSystem.disableFog();
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder bufferbuilder = tessellator.getBuffer();
         this.minecraft.getTextureManager().bindTexture(new ResourceLocation("textures/block/bricks.png"));
-        GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
-        bufferbuilder.pos(0.0D, this.height, 0.0D).tex(0.0D, (float) this.height / 32.0F + (float) tint).color(64, 64, 64, 255).endVertex();
-        bufferbuilder.pos(this.width, this.height, 0.0D).tex((float) this.width / 32.0F, (float) this.height / 32.0F + (float) tint).color(64, 64, 64, 255).endVertex();
-        bufferbuilder.pos(this.width, 0.0D, 0.0D).tex((float) this.width / 32.0F, tint).color(64, 64, 64, 255).endVertex();
-        bufferbuilder.pos(0.0D, 0.0D, 0.0D).tex(0.0D, tint).color(64, 64, 64, 255).endVertex();
+        bufferbuilder.func_225582_a_(0.0D, this.height, 0.0D).func_225583_a_(0.0F, (float) this.height / 32.0F + (float) tint).func_225586_a_(64, 64, 64, 255).endVertex();
+        bufferbuilder.func_225582_a_(this.width, this.height, 0.0D).func_225583_a_((float) this.width / 32.0F, (float) this.height / 32.0F + (float) tint).func_225586_a_(64, 64, 64, 255).endVertex();
+        bufferbuilder.func_225582_a_(this.width, 0.0D, 0.0D).func_225583_a_((float) this.width / 32.0F, (float) tint).func_225586_a_(64, 64, 64, 255).endVertex();
+        bufferbuilder.func_225582_a_(0.0D, 0.0D, 0.0D).func_225583_a_(0.0F, (float) tint).func_225586_a_(64, 64, 64, 255).endVertex();
         tessellator.draw();
     }
 }
